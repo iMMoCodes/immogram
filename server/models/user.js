@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-// Create Schema
+// Create user Schema
 const userSchema = mongoose.Schema({
 	name: {
 		type: String,

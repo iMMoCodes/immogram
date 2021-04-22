@@ -4,9 +4,11 @@ import dotenv from 'dotenv'
 
 // Models
 import User from './models/user.js'
+import Post from './models/post.js'
 
 // Routes
 import userRoutes from './routes/users.js'
+import postRoutes from './routes/post.js'
 
 // Initialize app
 dotenv.config()
@@ -18,6 +20,7 @@ app.use(express.json())
 
 // Routes
 app.use('/user', userRoutes)
+app.use('/post', postRoutes)
 
 // Connect to DB
 mongoose.connect(process.env.MONGO_DB_CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })

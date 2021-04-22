@@ -18,8 +18,9 @@ export const auth = (req, res, next) => {
 		// Get user by id
 		const { id } = payload
 		User.findById(id).then((userData) => {
+			// Attach information to req.user
 			req.user = userData
+			next()
 		})
-		next()
 	})
 }
