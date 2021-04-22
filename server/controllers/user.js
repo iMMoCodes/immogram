@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 import bcrypt from 'bcryptjs'
+import jwt from 'jsonwebtoken'
 import User from '../models/user.js'
 
 // Sign Up
@@ -56,7 +57,9 @@ export const signin = (req, res) => {
 			.then((doMatch) => {
 				// Passwords match
 				if (doMatch) {
-					res.json({ message: 'Succesfully signed in.' })
+					// Create token for user
+					const token = jwt.sign({ id: savedUser._id }, process.env.JWT_SECRET)
+					res.json({ token })
 				}
 				// Passwords don't match
 				else {
