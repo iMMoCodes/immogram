@@ -2,6 +2,7 @@ import mongoose from 'mongoose'
 import bcrypt from 'bcryptjs'
 import User from '../models/user.js'
 
+// Sign Up
 export const signup = (req, res) => {
 	// Get data from request
 	const { name, email, password } = req.body
@@ -36,4 +37,34 @@ export const signup = (req, res) => {
 		.catch((err) => {
 			console.log(err)
 		})
+}
+
+// Sign in
+export const signin = (req, res) => {
+	const { email, password } = req.body
+	// Check if email and password are there
+	if (!email || !password) {
+		return res.status(422).json({ error: 'Please provide email and password.' })
+	}
+	// Check user by email
+	User.findOne({ email: email }).then((savedUser) => {
+		if (!savedUser) {
+			return res.status(422).json({ error: 'Invalid email or password.' })
+		}
+		// Compare passwords
+		bcrypt.compare(password, savedUser.password)
+			.then((doMatch) => {
+				// Passwords match
+				if (doMatch) {
+					res.json({ message: 'Succesfully signed in.' })
+				}
+				// Passwords don't match
+				else {
+					return res.status(422).json({ error: 'Invalid email or password.' })
+				}
+			})
+			.catch((err) => {
+				console.log(err)
+			})
+	})
 }
