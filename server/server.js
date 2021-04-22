@@ -2,6 +2,9 @@ import express from 'express'
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 
+// Imports
+import User from './models/user.js'
+
 // Initialize app
 dotenv.config()
 const app = express()
