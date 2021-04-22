@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import bcrypt from 'bcryptjs'
 import User from '../models/user.js'
 
 export const signup = (req, res) => {
@@ -14,20 +15,23 @@ export const signup = (req, res) => {
 			if (savedUser) {
 				return res.status(422).json({ error: 'User already exists with that email.' })
 			}
-			// Add data to model
-			const user = new User({
-				name,
-				email,
-				password,
+			// Hash the password
+			bcrypt.hash(password, 10).then((hashedPassword) => {
+				// Add data to model
+				const user = new User({
+					name,
+					email,
+					password: hashedPassword,
+				})
+				// Save user
+				user.save()
+					.then((user) => {
+						res.status(201).json({ message: 'User succesfully saved.' })
+					})
+					.catch((err) => {
+						console.log(err)
+					})
 			})
-			// Save user
-			user.save()
-				.then((user) => {
-					res.status(201).json({ message: 'User succesfully saved.' })
-				})
-				.catch((err) => {
-					console.log(err)
-				})
 		})
 		.catch((err) => {
 			console.log(err)
