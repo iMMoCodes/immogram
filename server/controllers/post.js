@@ -1,6 +1,21 @@
 import mongoose from 'mongoose'
 import Post from '../models/post.js'
 
+// Get posts
+export const getPosts = (req, res) => {
+	Post.find()
+		// Turn ObjectId to actual fields
+		.populate('createdBy', '_id name')
+		// Return posts
+		.then((posts) => {
+			res.json({ posts })
+		})
+		.catch((err) => {
+			console.log(err)
+		})
+}
+
+// Create post
 export const createPost = (req, res) => {
 	// Get data from request
 	const { title, body } = req.body
