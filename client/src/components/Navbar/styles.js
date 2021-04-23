@@ -1,5 +1,4 @@
 import { makeStyles } from '@material-ui/core/styles'
-import { createMuiTheme } from '@material-ui/core/styles'
 
 export default makeStyles((theme) => ({
 	appBar: {
@@ -14,6 +13,7 @@ export default makeStyles((theme) => ({
 	heading: {
 		color: '#444444',
 		textDecoration: 'none',
+		fontFamily: "'Grand Hotel', cursive",
 	},
 	toolbar: {
 		display: 'flex',
@@ -24,9 +24,21 @@ export default makeStyles((theme) => ({
 		display: 'flex',
 		alignItems: 'center',
 	},
-	button: {
+	loginButton: {
 		margin: '0 5px',
 		color: 'white',
+		backgroundColor: '#00bcd4',
+		'&:hover': {
+			backgroundColor: '#00838f',
+		},
+	},
+	signUpButton: {
+		margin: '0 5px',
+		color: 'white',
+		backgroundColor: '#009688',
+		'&:hover': {
+			backgroundColor: '#00695c',
+		},
 	},
 	// Responsiveness
 	[theme.breakpoints.down('sm')]: {
@@ -37,16 +49,11 @@ export default makeStyles((theme) => ({
 			width: '100%',
 			justifyContent: 'space-around',
 		},
+		loginButton: {
+			padding: '10px',
+		},
+		signUpButton: {
+			padding: '10px',
+		},
 	},
 }))
-
-export const loginTheme = createMuiTheme({
-	palette: {
-		primary: {
-			main: '#00bcd4',
-		},
-		secondary: {
-			main: '#009688',
-		},
-	},
-})
