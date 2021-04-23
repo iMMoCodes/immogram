@@ -1,8 +1,9 @@
 import mongoose from 'mongoose'
 import Post from '../models/post.js'
 
-// Get posts
+// Get all posts
 export const getPosts = (req, res) => {
+	// Find all posts
 	Post.find()
 		// Turn ObjectId to actual fields
 		.populate('createdBy', '_id name')
@@ -35,6 +36,20 @@ export const createPost = (req, res) => {
 	post.save()
 		.then((result) => {
 			res.json({ post: result })
+		})
+		.catch((err) => {
+			console.log(err)
+		})
+}
+
+// Get own posts
+export const getOwnPosts = (req, res) => {
+	// Find posts that are created by user
+	Post.find({ createdBy: req.user._id })
+		// Turn ObjectId to actual fields
+		.populate('createdBy', '_id name')
+		.then((myPosts) => {
+			res.json({ myPosts })
 		})
 		.catch((err) => {
 			console.log(err)
