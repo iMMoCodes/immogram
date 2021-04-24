@@ -59,7 +59,10 @@ export const signin = (req, res) => {
 				if (doMatch) {
 					// Create token for user
 					const token = jwt.sign({ id: savedUser._id }, process.env.JWT_SECRET)
-					res.json({ token })
+					// Destructure data from saved user
+					const { _id, name, email } = savedUser
+					// Send back token and user
+					res.json({ token, user: { _id, name, email } })
 				}
 				// Passwords don't match
 				else {

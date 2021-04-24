@@ -41,6 +41,9 @@ const Signup = () => {
 					history.push('/signin')
 				}, 10000)
 			})
+			.catch((err) => {
+				console.log(err)
+			})
 	}
 
 	return (
