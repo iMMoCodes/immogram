@@ -23,6 +23,8 @@ export default makeStyles((theme) => ({
 	brandContainer: {
 		display: 'flex',
 		alignItems: 'center',
+		marginLeft: '20px',
+		marginBottom: '10px',
 	},
 	loginButton: {
 		margin: '0 5px',
@@ -44,6 +46,9 @@ export default makeStyles((theme) => ({
 	[theme.breakpoints.down('sm')]: {
 		appBar: {
 			flexDirection: 'column',
+		},
+		brandContainer: {
+			marginLeft: '0px',
 		},
 		toolbar: {
 			width: '100%',
