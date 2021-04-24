@@ -1,6 +1,7 @@
 import express from 'express'
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
+import cors from 'cors'
 
 // Models
 import User from './models/user.js'
@@ -15,6 +16,7 @@ dotenv.config()
 const app = express()
 const PORT = process.env.PORT || 5000
 app.use(express.json())
+app.use(cors())
 
 // Middleware
 

@@ -21,6 +21,9 @@ export default makeStyles((theme) => ({
 		width: '300px',
 		marginTop: theme.spacing(3),
 	},
+	textField: {
+		margin: '10px 0',
+	},
 	button: {
 		display: 'flex',
 		marginTop: '10px',

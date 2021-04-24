@@ -21,11 +21,11 @@ const Signin = () => {
 				{/* FORM */}
 				<form className={classes.form}>
 					{/* EMAIL */}
-					<Grid item xs={12}>
+					<Grid className={classes.textField} item xs={12}>
 						<TextField type='text' label='email' variant='outlined' required fullWidth />
 					</Grid>
 					{/* PASSWORD */}
-					<Grid item xs={12}>
+					<Grid className={classes.textField} item xs={12}>
 						<TextField
 							type='password'
 							label='password'

@@ -19,7 +19,7 @@ const App = () => {
 					<Route path='/profile' exact component={Profile} />
 					<Route path='/signin' exact component={Signin} />
 					<Route path='/signup' exact component={Signup} />
-					<Route path='/create' exact component={CreatePost} />
+					<Route path='/createpost' exact component={CreatePost} />
 				</Switch>
 			</BrowserRouter>
 		</>
