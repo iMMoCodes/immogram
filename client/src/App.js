@@ -7,6 +7,7 @@ import Home from './components/Home/Home'
 import Profile from './components/Profile/Profile'
 import Signin from './components/Signin/Signin'
 import Signup from './components/Signup/Signup'
+import CreatePost from './components/CreatePost/CreatePost'
 
 const App = () => {
 	return (
@@ -18,6 +19,7 @@ const App = () => {
 					<Route path='/profile' exact component={Profile} />
 					<Route path='/signin' exact component={Signin} />
 					<Route path='/signup' exact component={Signup} />
+					<Route path='/create' exact component={CreatePost} />
 				</Switch>
 			</BrowserRouter>
 		</>
