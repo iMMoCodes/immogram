@@ -7,7 +7,7 @@ import { createPost, getPosts, getOwnPosts } from '../controllers/post.js'
 const router = express.Router()
 
 // Routes
-router.get('/', getPosts)
+router.get('/', auth, getPosts)
 router.get('/ownposts', auth, getOwnPosts)
 router.post('/create', auth, createPost)
 

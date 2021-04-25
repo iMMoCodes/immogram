@@ -6,16 +6,13 @@ import HomeCard from './Card/Card'
 
 const Home = () => {
 	const classes = useStyles()
+
 	return (
 		<Container className={classes.mainContainer}>
 			<Typography className={classes.header} variant='h1' align='center'>
 				ImmoGram
 			</Typography>
 			<Grid className={classes.cardContainer}>
-				<HomeCard />
-				<HomeCard />
-				<HomeCard />
-				<HomeCard />
 				<HomeCard />
 			</Grid>
 		</Container>
