@@ -32,6 +32,7 @@ export const createPost = (req, res) => {
 		body,
 		picture,
 		createdBy: req.user,
+		createdAt: new Date().toISOString(),
 	})
 	// Save post
 	post.save()

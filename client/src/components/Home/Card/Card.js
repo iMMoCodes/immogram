@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import moment from 'moment'
 import { Avatar, Card, CardActions, CardContent, CardHeader, CardMedia, IconButton, Button, TextField, Typography } from '@material-ui/core'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import FavoriteIcon from '@material-ui/icons/Favorite'
@@ -57,7 +58,7 @@ const HomeCard = () => {
 								</IconButton>
 							}
 							title={item.title}
-							subheader='Posting time here'
+							subheader={moment(item.createdAt).fromNow()}
 						/>
 						{/* IMAGE */}
 						<CardMedia className={classes.media} image={item.picture} />

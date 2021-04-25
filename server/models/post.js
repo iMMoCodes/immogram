@@ -21,6 +21,10 @@ const postSchema = mongoose.Schema({
 		type: ObjectId,
 		ref: 'User',
 	},
+	createdAt: {
+		type: Date,
+		default: new Date(),
+	},
 })
 
 // Export Schema
