@@ -34,7 +34,7 @@ const HomeCard = () => {
 		return () => {
 			setLoading(false)
 		}
-	}, [])
+	}, [loading])
 
 	return (
 		<>

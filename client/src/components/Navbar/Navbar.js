@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 // Styles
 import { AppBar, Toolbar, Typography } from '@material-ui/core'
@@ -10,7 +10,6 @@ import useStyles from './styles'
 import { GetUserButtons } from '../../helpers/UserButtons/GetUserButtons'
 
 const Navbar = () => {
-	const dispatch = useDispatch()
 	const userState = useSelector((state) => state.user)
 	const classes = useStyles()
 

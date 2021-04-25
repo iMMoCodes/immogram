@@ -49,7 +49,7 @@ const CreatePost = () => {
 					console.log(err)
 				})
 		}
-	}, [url])
+	}, [url, history, message, title])
 
 	const submitDetails = () => {
 		// To upload a file

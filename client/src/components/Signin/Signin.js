@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Avatar, Button, Paper, Grid, Typography, Container, TextField } from '@material-ui/core'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Alert from '@material-ui/lab/Alert'
 
 import useStyles from './styles'
 
-import { userInfo } from '../../actions/user'
+import { setUser } from '../../actions/user'
 
 const Signin = () => {
 	const classes = useStyles()
@@ -16,7 +16,6 @@ const Signin = () => {
 	const [showAlert, setShowAlert] = useState('')
 	const history = useHistory()
 	const dispatch = useDispatch()
-	const userState = useSelector((state) => state.user)
 
 	// Submit data
 	const submitData = () => {
@@ -42,7 +41,7 @@ const Signin = () => {
 				// Save user details to local storage
 				localStorage.setItem('user', JSON.stringify(data.user))
 				// Dispatch user info
-				dispatch(userInfo(data.user))
+				dispatch(setUser(data.user))
 				// Redirect
 				history.push('/')
 			})

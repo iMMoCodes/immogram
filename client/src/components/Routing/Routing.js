@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import { Route, Switch, useHistory } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
-import { userInfo } from '../../actions/user'
+import { setUser } from '../../actions/user'
 
 // Components
 import Home from '../Home/Home'
@@ -13,7 +13,6 @@ import CreatePost from '../CreatePost/CreatePost'
 
 const Routing = () => {
 	const history = useHistory()
-	const userState = useSelector((state) => state.user)
 	const dispatch = useDispatch()
 
 	useEffect(() => {
@@ -23,13 +22,13 @@ const Routing = () => {
 		// Check if there's user
 		if (user) {
 			// Dispatch userInfo
-			dispatch(userInfo(user))
+			dispatch(setUser(user))
 			// Redirect to homepage
 			history.push('/')
 		}
 		// If there's no user -> Redirect to signin page
 		history.push('/signin')
-	}, [])
+	}, [dispatch, history])
 
 	return (
 		<Switch>
