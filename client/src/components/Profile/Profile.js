@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { Container, Paper, Avatar, Grid, Typography, Card } from '@material-ui/core'
 
 import useStyles from './styles'
@@ -9,7 +9,6 @@ const Profile = () => {
 	const classes = useStyles()
 	const [ownPosts, setOwnPosts] = useState([])
 	const userState = useSelector((state) => state.user)
-	const dispatch = useDispatch()
 
 	useEffect(() => {
 		// Send request to get own posts

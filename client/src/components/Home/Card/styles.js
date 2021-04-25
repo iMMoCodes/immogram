@@ -17,27 +17,19 @@ export default makeStyles((theme) => ({
 		justifyContent: 'space-around',
 	},
 	favoriteIcon: {
-		color: 'red',
+		color: '#b71c1c',
 	},
 	commentIcon: {
-		color: 'blue',
+		color: '#01579b',
+	},
+	likeIcon: {
+		color: '#03a9f4',
+	},
+	unlikeIcon: {
+		color: '#d32f2f',
 	},
 	iconTexts: {
 		color: '#444444',
-	},
-	commentSection: {
-		display: 'flex',
-		width: '100%',
-	},
-	commentField: {
-		flex: '7',
-	},
-	commentButton: {
-		flex: '1',
-		backgroundColor: '#00bcd4',
-		'&:hover': {
-			backgroundColor: '#00838f',
-		},
 	},
 	// Responsiveness
 	// XL

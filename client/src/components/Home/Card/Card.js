@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import moment from 'moment'
-import { Avatar, Card, CardActions, CardContent, CardHeader, CardMedia, IconButton, Button, TextField, Typography } from '@material-ui/core'
+import { useSelector } from 'react-redux'
+import { Avatar, Card, CardActions, CardContent, CardHeader, CardMedia, IconButton, Typography } from '@material-ui/core'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import FavoriteIcon from '@material-ui/icons/Favorite'
 import CommentIcon from '@material-ui/icons/Comment'
+import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt'
+import ThumbDownIcon from '@material-ui/icons/ThumbDown'
 
 import { SERVER_URL } from '../../../constants/fetchURL'
 
@@ -12,8 +15,66 @@ import useStyles from './styles'
 const HomeCard = () => {
 	const [data, setData] = useState([])
 	const [loading, setLoading] = useState(true)
-	const [openComment, setOpenComment] = useState(false)
 	const classes = useStyles()
+	const userState = useSelector((state) => state.user)
+
+	const likePost = (id) => {
+		// Make request
+		fetch(`${SERVER_URL}/post/like`, {
+			method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: 'Bearer ' + localStorage.getItem('jwt'),
+			},
+			body: JSON.stringify({
+				postId: id,
+			}),
+		})
+			.then((res) => res.json())
+			.then((result) => {
+				// Updated data
+				const newData = data.map((item) => {
+					if (item._id === result._id) {
+						return result
+					} else {
+						return item
+					}
+				})
+				setData(newData)
+			})
+			.catch((err) => {
+				console.log(err)
+			})
+	}
+
+	const unlikePost = (id) => {
+		// Make request
+		fetch(`${SERVER_URL}/post/unlike`, {
+			method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: 'Bearer ' + localStorage.getItem('jwt'),
+			},
+			body: JSON.stringify({
+				postId: id,
+			}),
+		})
+			.then((res) => res.json())
+			.then((result) => {
+				// Updated data
+				const newData = data.map((item) => {
+					if (item._id === result._id) {
+						return result
+					} else {
+						return item
+					}
+				})
+				setData(newData)
+			})
+			.catch((err) => {
+				console.log(err)
+			})
+	}
 
 	useEffect(() => {
 		if (loading) {
@@ -47,8 +108,8 @@ const HomeCard = () => {
 						<CardHeader
 							avatar={
 								<Avatar className={classes.avatar}>
-									{item.createdBy.name
-										.charAt(
+									{item?.createdBy?.name
+										?.charAt(
 											0
 										)
 										.toUpperCase()}
@@ -76,6 +137,7 @@ const HomeCard = () => {
 						</CardContent>
 						{/* CARD BUTTONS */}
 						<CardActions className={classes.actionButtons}>
+							{/* FAVORITE */}
 							<IconButton>
 								<FavoriteIcon
 									className={
@@ -91,7 +153,65 @@ const HomeCard = () => {
 									&nbsp;Favorite
 								</Typography>
 							</IconButton>
-							<IconButton onClick={() => setOpenComment(!openComment)}>
+							{/* LIKE */}
+							{item.likes.includes(userState._id) ? (
+								<IconButton
+									onClick={() =>
+										unlikePost(
+											item._id
+										)
+									}
+								>
+									<ThumbDownIcon
+										className={
+											classes.unlikeIcon
+										}
+									/>
+									<Typography
+										variant='h6'
+										className={
+											classes.iconTexts
+										}
+									>
+										&nbsp;
+										{
+											item
+												.likes
+												.length
+										}
+									</Typography>
+								</IconButton>
+							) : (
+								<IconButton
+									onClick={() =>
+										likePost(
+											item._id
+										)
+									}
+								>
+									<ThumbUpAltIcon
+										className={
+											classes.likeIcon
+										}
+									/>
+									<Typography
+										variant='h6'
+										className={
+											classes.iconTexts
+										}
+									>
+										&nbsp;
+										{
+											item
+												.likes
+												.length
+										}
+									</Typography>
+								</IconButton>
+							)}
+
+							{/* COMMENT */}
+							<IconButton>
 								<CommentIcon
 									className={
 										classes.commentIcon
@@ -107,27 +227,6 @@ const HomeCard = () => {
 								</Typography>
 							</IconButton>
 						</CardActions>
-						{/* COMMENT SECTION */}
-						{openComment && (
-							<div className={classes.commentSection}>
-								<TextField
-									className={
-										classes.commentField
-									}
-									name='comment'
-									variant='outlined'
-									label='Comment'
-								/>
-								<Button
-									className={
-										classes.commentButton
-									}
-									variant='contained'
-								>
-									Send
-								</Button>
-							</div>
-						)}
 					</Card>
 				)
 			})}

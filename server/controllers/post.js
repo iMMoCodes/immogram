@@ -1,4 +1,3 @@
-import mongoose from 'mongoose'
 import Post from '../models/post.js'
 
 // Get all posts
@@ -56,4 +55,50 @@ export const getOwnPosts = (req, res) => {
 		.catch((err) => {
 			console.log(err)
 		})
+}
+
+// Like post
+export const likePost = (req, res) => {
+	// Get post by ID that is sent
+	Post.findByIdAndUpdate(
+		req.body.postId,
+		{
+			// Push ID to likes array
+			$push: { likes: req.user._id },
+		},
+		// To get a new version
+		{
+			new: true,
+			useFindAndModify: false,
+		}
+	).exec((err, result) => {
+		if (err) {
+			return res.status(422).json({ error: err })
+		} else {
+			res.json(result)
+		}
+	})
+}
+
+// UnLike post
+export const unlikePost = (req, res) => {
+	// Get post by ID that is sent
+	Post.findByIdAndUpdate(
+		req.body.postId,
+		{
+			// Pull ID from likes array
+			$pull: { likes: req.user._id },
+		},
+		// To get a new version
+		{
+			new: true,
+			useFindAndModify: false,
+		}
+	).exec((err, result) => {
+		if (err) {
+			return res.status(422).json({ error: err })
+		} else {
+			res.json(result)
+		}
+	})
 }

@@ -21,6 +21,12 @@ const postSchema = mongoose.Schema({
 		type: ObjectId,
 		ref: 'User',
 	},
+	likes: [
+		{
+			type: ObjectId,
+			ref: 'User',
+		},
+	],
 	createdAt: {
 		type: Date,
 		default: new Date(),
