@@ -18,7 +18,7 @@ export default makeStyles((theme) => ({
 	toolbar: {
 		display: 'flex',
 		justifyContent: 'flex-end',
-		width: '400px',
+		width: '600px',
 	},
 	brandContainer: {
 		display: 'flex',
@@ -26,23 +26,43 @@ export default makeStyles((theme) => ({
 		marginLeft: '20px',
 		marginBottom: '10px',
 	},
-	loginButton: {
+	buttons: {
+		width: '180px',
 		margin: '0 5px',
 		color: 'white',
+	},
+	loginButton: {
 		backgroundColor: '#00bcd4',
 		'&:hover': {
 			backgroundColor: '#00838f',
 		},
 	},
 	signUpButton: {
-		margin: '0 5px',
-		color: 'white',
 		backgroundColor: '#009688',
 		'&:hover': {
 			backgroundColor: '#00695c',
 		},
 	},
+	profileButton: {
+		backgroundColor: '#673ab7',
+		'&:hover': {
+			backgroundColor: '#4527a0',
+		},
+	},
+	createPostButton: {
+		backgroundColor: '#4caf50',
+		'&:hover': {
+			backgroundColor: '#2e7d32',
+		},
+	},
+	logoutButton: {
+		backgroundColor: '#f44336',
+		'&:hover': {
+			backgroundColor: '#c62828',
+		},
+	},
 	// Responsiveness
+	// SM
 	[theme.breakpoints.down('sm')]: {
 		appBar: {
 			flexDirection: 'column',
@@ -54,11 +74,17 @@ export default makeStyles((theme) => ({
 			width: '100%',
 			justifyContent: 'space-around',
 		},
-		loginButton: {
-			padding: '10px',
+	},
+	// XS
+	[theme.breakpoints.down('xs')]: {
+		toolbar: {
+			flexDirection: 'column',
 		},
-		signUpButton: {
-			padding: '10px',
+		buttons: {
+			margin: '2px 0',
+		},
+		logoutButton: {
+			marginBottom: '15px',
 		},
 	},
 }))
