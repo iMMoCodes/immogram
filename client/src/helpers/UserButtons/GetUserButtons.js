@@ -1,7 +1,9 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Button, Typography } from '@material-ui/core'
+
+import { logOut } from '../../actions/user'
 
 import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined'
 import AddBoxOutlinedIcon from '@material-ui/icons/AddBoxOutlined'
@@ -14,6 +16,16 @@ import useStyles from './styles'
 export const GetUserButtons = () => {
 	const userState = useSelector((state) => state.user)
 	const classes = useStyles()
+	const dispatch = useDispatch()
+
+	// Logout
+	const handleLogout = () => {
+		// Remove data from local storage
+		localStorage.clear()
+		// Set userState to null
+		dispatch(logOut())
+	}
+
 	// User is logged
 	if (userState) {
 		return [
@@ -28,7 +40,14 @@ export const GetUserButtons = () => {
 				<Typography variant='body2'>&nbsp;Create post</Typography>
 			</Button>,
 			// LOGOUT BUTTON
-			<Button key={2} component={Link} to='/signin' variant='contained' className={`${classes.logoutButton} ${classes.buttons}`}>
+			<Button
+				key={2}
+				component={Link}
+				to='/signin'
+				variant='contained'
+				className={`${classes.logoutButton} ${classes.buttons}`}
+				onClick={handleLogout}
+			>
 				<ExitToAppOutlinedIcon />
 				<Typography variant='body2'>&nbsp;Logout</Typography>
 			</Button>,

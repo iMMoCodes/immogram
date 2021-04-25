@@ -45,11 +45,11 @@ const HomeCard = () => {
 						<CardHeader
 							avatar={
 								<Avatar className={classes.avatar}>
-									{
-										item
-											.createdBy
-											.name
-									}
+									{item.createdBy.name
+										.charAt(
+											0
+										)
+										.toUpperCase()}
 								</Avatar>
 							}
 							action={

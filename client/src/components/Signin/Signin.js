@@ -33,7 +33,6 @@ const Signin = () => {
 			// Convert response
 			.then((res) => res.json())
 			.then((data) => {
-				console.log(data)
 				// Show alert if there's an error
 				if (data.error) {
 					return setShowAlert('error')

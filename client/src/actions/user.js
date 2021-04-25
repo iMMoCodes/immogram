@@ -6,3 +6,9 @@ export const userInfo = (userInfo) => {
 		payload: userInfo,
 	}
 }
+
+export const logOut = () => {
+	return {
+		type: actionType.LOGOUT,
+	}
+}
