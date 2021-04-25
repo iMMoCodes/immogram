@@ -15,7 +15,7 @@ const postSchema = mongoose.Schema({
 	},
 	picture: {
 		type: String,
-		default: 'No picture',
+		required: true,
 	},
 	createdBy: {
 		type: ObjectId,

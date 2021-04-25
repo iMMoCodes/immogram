@@ -33,6 +33,10 @@ const Signin = () => {
 				if (data.error) {
 					return setShowAlert('error')
 				}
+				// Save token to local storage
+				localStorage.setItem('jwt', data.token)
+				// Save user details to local storage
+				localStorage.setItem('user', JSON.stringify(data.user))
 				// Redirect
 				history.push('/')
 			})

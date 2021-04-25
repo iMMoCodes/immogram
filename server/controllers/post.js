@@ -19,9 +19,9 @@ export const getPosts = (req, res) => {
 // Create post
 export const createPost = (req, res) => {
 	// Get data from request
-	const { title, body } = req.body
-	// Check if title and message are there
-	if (!title || !body) {
+	const { title, body, picture } = req.body
+	// Check if title, message and picture are there
+	if (!title || !body || !picture) {
 		return res.status(422).json({ error: 'Please fill all the fields.' })
 	}
 	// Hide password before adding
@@ -30,6 +30,7 @@ export const createPost = (req, res) => {
 	const post = new Post({
 		title,
 		body,
+		picture,
 		createdBy: req.user,
 	})
 	// Save post
