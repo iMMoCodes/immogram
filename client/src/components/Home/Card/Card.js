@@ -5,6 +5,8 @@ import MoreVertIcon from '@material-ui/icons/MoreVert'
 import FavoriteIcon from '@material-ui/icons/Favorite'
 import CommentIcon from '@material-ui/icons/Comment'
 
+import { SERVER_URL } from '../../../constants/fetchURL'
+
 import useStyles from './styles'
 
 const HomeCard = () => {
@@ -16,7 +18,7 @@ const HomeCard = () => {
 	useEffect(() => {
 		if (loading) {
 			// Make request to get posts
-			fetch('http://localhost:5000/post', {
+			fetch(`${SERVER_URL}/post`, {
 				headers: {
 					Authorization: 'Bearer ' + localStorage.getItem('jwt'),
 				},

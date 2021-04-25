@@ -2,8 +2,8 @@ import { makeStyles } from '@material-ui/core/styles'
 
 export default makeStyles((theme) => ({
 	root: {
-		maxWidth: '340px',
 		margin: '50px 20px',
+		borderRadius: '20px',
 	},
 	media: {
 		height: 0,
@@ -40,19 +40,25 @@ export default makeStyles((theme) => ({
 		},
 	},
 	// Responsiveness
+	// XL
+	[theme.breakpoints.up('xl')]: {
+		root: {
+			width: '40%',
+		},
+	},
+	// LG
+	[theme.breakpoints.down('lg')]: {
+		root: {
+			width: '40%',
+		},
+	},
 	// SM
 	[theme.breakpoints.down('sm')]: {
 		root: {
-			maxWidth: '290px',
+			width: '100%',
 		},
 		actionButtons: {
 			flexDirection: 'column',
-		},
-	},
-	//XS
-	[theme.breakpoints.down('xs')]: {
-		root: {
-			maxWidth: '500px',
 		},
 	},
 }))

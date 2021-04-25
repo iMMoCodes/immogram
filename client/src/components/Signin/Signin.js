@@ -8,6 +8,7 @@ import Alert from '@material-ui/lab/Alert'
 import useStyles from './styles'
 
 import { setUser } from '../../actions/user'
+import { SERVER_URL } from '../../constants/fetchURL'
 
 const Signin = () => {
 	const classes = useStyles()
@@ -19,7 +20,7 @@ const Signin = () => {
 
 	// Submit data
 	const submitData = () => {
-		fetch('http://localhost:5000/user/signin', {
+		fetch(`${SERVER_URL}/user/signin`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',

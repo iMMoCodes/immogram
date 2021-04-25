@@ -23,11 +23,10 @@ const Routing = () => {
 		if (user) {
 			// Dispatch userInfo
 			dispatch(setUser(user))
-			// Redirect to homepage
-			history.push('/')
+		} else {
+			// If there's no user -> Redirect to signin page
+			history.push('/signin')
 		}
-		// If there's no user -> Redirect to signin page
-		history.push('/signin')
 	}, [dispatch, history])
 
 	return (

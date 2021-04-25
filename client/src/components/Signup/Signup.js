@@ -5,6 +5,7 @@ import Alert from '@material-ui/lab/Alert'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 
 import useStyles from './styles'
+import { SERVER_URL } from '../../constants/fetchURL'
 
 const Signup = () => {
 	const [name, setName] = useState('')
@@ -16,7 +17,7 @@ const Signup = () => {
 
 	// Submit data
 	const submitData = () => {
-		fetch('http://localhost:5000/user/signup', {
+		fetch(`${SERVER_URL}/user/signup`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',

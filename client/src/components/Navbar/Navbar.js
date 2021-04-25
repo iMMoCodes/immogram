@@ -14,7 +14,7 @@ const Navbar = () => {
 	const classes = useStyles()
 
 	return (
-		<AppBar className={classes.appBar} position='static' color='inherit'>
+		<AppBar className={classes.appBar} position='static'>
 			{/* LOGO */}
 			<div className={classes.brandContainer}>
 				{/* HEADER */}

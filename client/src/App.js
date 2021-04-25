@@ -5,6 +5,8 @@ import { BrowserRouter } from 'react-router-dom'
 import Navbar from './components/Navbar/Navbar'
 import Routing from './components/Routing/Routing'
 
+import './App.css'
+
 const App = () => {
 	return (
 		<>

@@ -2,9 +2,6 @@ import { makeStyles } from '@material-ui/core/styles'
 
 export default makeStyles((theme) => ({
 	mainContainer: {
-		backgroundImage: 'url("https://images.pexels.com/photos/2387793/pexels-photo-2387793.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260")',
-	},
-	paper: {
 		width: '100%',
 	},
 	header: {

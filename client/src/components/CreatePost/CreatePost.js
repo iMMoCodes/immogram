@@ -4,6 +4,8 @@ import FileBase from 'react-file-base64'
 import { Paper, Typography, TextField, Button } from '@material-ui/core'
 import Alert from '@material-ui/lab/Alert'
 
+import { SERVER_URL, IMAGE_SERVER_URL } from '../../constants/fetchURL'
+
 import useStyles from './styles'
 
 const CreatePost = () => {
@@ -19,7 +21,7 @@ const CreatePost = () => {
 		// Need to wait for the URL to change before posting to server
 		if (url) {
 			// Make request to server
-			fetch('http://localhost:5000/post/create', {
+			fetch(`${SERVER_URL}/post/create`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -58,7 +60,7 @@ const CreatePost = () => {
 		data.append('upload_preset', 'immogram')
 		data.append('cloud_name', 'immocodes')
 		// Make request
-		fetch('https://api.cloudinary.com/v1_1/immocodes/image/upload', {
+		fetch(`${IMAGE_SERVER_URL}/image/upload`, {
 			method: 'POST',
 			body: data,
 		})
@@ -103,6 +105,7 @@ const CreatePost = () => {
 					variant='outlined'
 					label='Title'
 					fullWidth
+					className={classes.textFields}
 					value={title}
 					onChange={(e) => setTitle(e.target.value)}
 				/>
@@ -113,6 +116,7 @@ const CreatePost = () => {
 					variant='outlined'
 					label='Message'
 					fullWidth
+					className={classes.textFields}
 					value={message}
 					onChange={(e) => setMessage(e.target.value)}
 				/>
@@ -131,10 +135,6 @@ const CreatePost = () => {
 						onClick={submitDetails}
 					>
 						Submit
-					</Button>
-					{/* CLEAR */}
-					<Button variant='contained' color='secondary' size='large'>
-						Clear
 					</Button>
 				</div>
 			</form>

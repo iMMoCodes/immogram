@@ -5,6 +5,8 @@ export default makeStyles((theme) => ({
 		display: 'flex',
 		maxWidth: '90%',
 		margin: '0 auto',
+		borderRadius: '20px',
+		backgroundColor: 'transparent',
 	},
 	avatar: {
 		height: '160px',
@@ -19,14 +21,26 @@ export default makeStyles((theme) => ({
 		width: '280px',
 		justifyContent: 'space-around',
 	},
+	userName: {
+		color: '#bdbdbd',
+	},
 	userPostContainer: {
 		maxWidth: '80%',
 		margin: '20px auto',
+		backgroundColor: 'transparent',
+		borderRadius: '20px',
 	},
 	usersPostedImages: {
 		margin: '30px',
 		height: '205px',
+		width: '205px',
 		borderRadius: '20px',
+	},
+	usersPostsText: {
+		color: '#bdbdbd',
+	},
+	usersInfoText: {
+		color: '#bdbdbd',
 	},
 	// Responsiveness
 	// SM

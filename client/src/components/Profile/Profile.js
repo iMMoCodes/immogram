@@ -1,10 +1,29 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { Container, Paper, Avatar, Grid, Typography, Card } from '@material-ui/core'
 
 import useStyles from './styles'
+import { SERVER_URL } from '../../constants/fetchURL'
 
 const Profile = () => {
 	const classes = useStyles()
+	const [ownPosts, setOwnPosts] = useState([])
+	const userState = useSelector((state) => state.user)
+	const dispatch = useDispatch()
+
+	useEffect(() => {
+		// Send request to get own posts
+		fetch(`${SERVER_URL}/post/ownposts`, {
+			headers: {
+				Authorization: 'Bearer ' + localStorage.getItem('jwt'),
+			},
+		})
+			.then((res) => res.json())
+			.then((result) => {
+				setOwnPosts(result.myPosts)
+			})
+	}, [])
+
 	return (
 		<Container>
 			<Paper className={classes.paper} elevation={3}>
@@ -18,12 +37,18 @@ const Profile = () => {
 				{/* USERNAME AND USER INFO */}
 				<Grid className={classes.userInfoContainer}>
 					<Typography className={classes.userName} variant='h3' align='center'>
-						Username
+						{userState?.name}
 					</Typography>
 					<div className={classes.userStats}>
-						<Typography variant='body1'>40 posts</Typography>
-						<Typography variant='body1'>40 followers</Typography>
-						<Typography variant='body1'>40 following</Typography>
+						<Typography variant='h5' align='center' className={classes.usersInfoText}>
+							40 posts
+						</Typography>
+						<Typography variant='h5' align='center' className={classes.usersInfoText}>
+							40 followers
+						</Typography>
+						<Typography variant='h5' align='center' className={classes.usersInfoText}>
+							40 following
+						</Typography>
 					</div>
 				</Grid>
 			</Paper>
@@ -32,36 +57,16 @@ const Profile = () => {
 				<Typography className={classes.usersPostsText} variant='h3' align='center'>
 					Posts
 				</Typography>
-				<img
-					alt='TestPhoto'
-					className={classes.usersPostedImages}
-					src='https://images.pexels.com/photos/5237734/pexels-photo-5237734.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'
-				/>
-				<img
-					alt='TestPhoto'
-					className={classes.usersPostedImages}
-					src='https://images.pexels.com/photos/5237734/pexels-photo-5237734.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'
-				/>
-				<img
-					alt='TestPhoto'
-					className={classes.usersPostedImages}
-					src='https://images.pexels.com/photos/5237734/pexels-photo-5237734.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'
-				/>
-				<img
-					alt='TestPhoto'
-					className={classes.usersPostedImages}
-					src='https://images.pexels.com/photos/5237734/pexels-photo-5237734.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'
-				/>
-				<img
-					alt='TestPhoto'
-					className={classes.usersPostedImages}
-					src='https://images.pexels.com/photos/5237734/pexels-photo-5237734.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'
-				/>
-				<img
-					alt='TestPhoto'
-					className={classes.usersPostedImages}
-					src='https://images.pexels.com/photos/5237734/pexels-photo-5237734.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'
-				/>
+				{ownPosts.map((post) => {
+					return (
+						<img
+							key={post._id}
+							alt={post.title}
+							className={classes.usersPostedImages}
+							src={post.picture}
+						/>
+					)
+				})}
 			</Card>
 		</Container>
 	)
