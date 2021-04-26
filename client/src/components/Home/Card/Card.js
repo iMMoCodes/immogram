@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import moment from 'moment'
 import { useSelector } from 'react-redux'
-import { Avatar, Card, CardActions, CardContent, CardHeader, CardMedia, IconButton, Typography } from '@material-ui/core'
+import { Avatar, Button, Card, CardActions, CardContent, CardHeader, CardMedia, IconButton, TextField, Typography } from '@material-ui/core'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import FavoriteIcon from '@material-ui/icons/Favorite'
 import CommentIcon from '@material-ui/icons/Comment'
@@ -18,6 +18,7 @@ const HomeCard = () => {
 	const classes = useStyles()
 	const userState = useSelector((state) => state.user)
 
+	// Like
 	const likePost = (id) => {
 		// Make request
 		fetch(`${SERVER_URL}/post/like`, {
@@ -47,6 +48,7 @@ const HomeCard = () => {
 			})
 	}
 
+	// Dislike
 	const unlikePost = (id) => {
 		// Make request
 		fetch(`${SERVER_URL}/post/unlike`, {
@@ -57,6 +59,36 @@ const HomeCard = () => {
 			},
 			body: JSON.stringify({
 				postId: id,
+			}),
+		})
+			.then((res) => res.json())
+			.then((result) => {
+				// Updated data
+				const newData = data.map((item) => {
+					if (item._id === result._id) {
+						return result
+					} else {
+						return item
+					}
+				})
+				setData(newData)
+			})
+			.catch((err) => {
+				console.log(err)
+			})
+	}
+
+	// Comment
+	const makeComment = (text, postId) => {
+		fetch(`${SERVER_URL}/post/comment`, {
+			method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: 'Bearer ' + localStorage.getItem('jwt'),
+			},
+			body: JSON.stringify({
+				postId,
+				text,
 			}),
 		})
 			.then((res) => res.json())
@@ -209,24 +241,58 @@ const HomeCard = () => {
 									</Typography>
 								</IconButton>
 							)}
-
-							{/* COMMENT */}
-							<IconButton>
-								<CommentIcon
-									className={
-										classes.commentIcon
-									}
-								/>
-								<Typography
-									variant='h6'
-									className={
-										classes.iconTexts
-									}
-								>
-									&nbsp;Comment
-								</Typography>
-							</IconButton>
 						</CardActions>
+						{item.comments.map((comment) => {
+							return (
+								<div
+									className={
+										classes.commentArea
+									}
+									key={comment._id}
+								>
+									<Typography
+										className={
+											classes.commentSender
+										}
+										variant='h6'
+									>
+										{
+											comment
+												.createdBy
+												.name
+										}
+										&nbsp;:&nbsp;
+									</Typography>
+									<Typography
+										className={
+											classes.commentSendText
+										}
+										variant='body2'
+									>
+										{
+											comment.text
+										}
+									</Typography>
+								</div>
+							)
+						})}
+						<form
+							onSubmit={(e) => {
+								e.preventDefault()
+								makeComment(e.target[0].value, item._id)
+							}}
+							className={classes.commentField}
+							noValidate
+						>
+							<TextField
+								variant='outlined'
+								label='Add a comment'
+								className={classes.commentText}
+							/>
+							<Button type='submit' className={classes.sendComment}>
+								Send
+							</Button>
+						</form>
 					</Card>
 				)
 			})}

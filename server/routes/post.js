@@ -1,7 +1,7 @@
 import express from 'express'
 
 import { auth } from '../middleware/auth.js'
-import { createPost, getPosts, getOwnPosts, likePost, unlikePost } from '../controllers/post.js'
+import { createPost, getPosts, getOwnPosts, likePost, unlikePost, createComment } from '../controllers/post.js'
 
 // Setup router
 const router = express.Router()
@@ -12,6 +12,7 @@ router.get('/ownposts', auth, getOwnPosts)
 router.post('/create', auth, createPost)
 router.patch('/like', auth, likePost)
 router.patch('/unlike', auth, unlikePost)
+router.patch('/comment', auth, createComment)
 
 // Export router
 export default router

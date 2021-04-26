@@ -71,13 +71,16 @@ export const likePost = (req, res) => {
 			new: true,
 			useFindAndModify: false,
 		}
-	).exec((err, result) => {
-		if (err) {
-			return res.status(422).json({ error: err })
-		} else {
-			res.json(result)
-		}
-	})
+	)
+		.populate('comments.createdBy', '_id name')
+		.populate('createdBy', '_id name')
+		.exec((err, result) => {
+			if (err) {
+				return res.status(422).json({ error: err })
+			} else {
+				res.json(result)
+			}
+		})
 }
 
 // UnLike post
@@ -94,11 +97,45 @@ export const unlikePost = (req, res) => {
 			new: true,
 			useFindAndModify: false,
 		}
-	).exec((err, result) => {
-		if (err) {
-			return res.status(422).json({ error: err })
-		} else {
-			res.json(result)
+	)
+		.populate('comments.createdBy', '_id name')
+		.populate('createdBy', '_id name')
+		.exec((err, result) => {
+			if (err) {
+				return res.status(422).json({ error: err })
+			} else {
+				res.json(result)
+			}
+		})
+}
+
+// Create comment
+export const createComment = (req, res) => {
+	const comment = {
+		text: req.body.text,
+		createdBy: req.user._id,
+	}
+	// Get post by ID that is sent
+	Post.findByIdAndUpdate(
+		req.body.postId,
+		{
+			// Push comment to comment array
+			$push: { comments: comment },
+		},
+		// To get a new version
+		{
+			new: true,
+			useFindAndModify: false,
 		}
-	})
+	)
+		// Get id and name from _id
+		.populate('comments.createdBy', '_id name')
+		.populate('createdBy', '_id name')
+		.exec((err, result) => {
+			if (err) {
+				return res.status(422).json({ error: err })
+			} else {
+				res.json(result)
+			}
+		})
 }

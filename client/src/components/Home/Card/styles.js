@@ -31,6 +31,31 @@ export default makeStyles((theme) => ({
 	iconTexts: {
 		color: '#444444',
 	},
+	commentField: {
+		display: 'flex',
+		margin: '7px 7px',
+	},
+	commentText: {
+		flex: '6',
+	},
+	sendComment: {
+		flex: '1',
+		backgroundColor: '#00bcd4',
+		'&:hover': {
+			backgroundColor: '#00838f',
+		},
+	},
+	commentArea: {
+		display: 'flex',
+		alignItems: 'center',
+		margin: '10px 10px',
+	},
+	commentSender: {
+		justifyContent: 'flex-start',
+	},
+	commentSendText: {
+		justifyContent: 'flex-end',
+	},
 	// Responsiveness
 	// XL
 	[theme.breakpoints.up('xl')]: {
