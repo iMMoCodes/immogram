@@ -84,7 +84,7 @@ export const likePost = (req, res) => {
 }
 
 // UnLike post
-export const unlikePost = (req, res) => {
+export const dislikePost = (req, res) => {
 	// Get post by ID that is sent
 	Post.findByIdAndUpdate(
 		req.body.postId,
@@ -136,6 +136,30 @@ export const createComment = (req, res) => {
 				return res.status(422).json({ error: err })
 			} else {
 				res.json(result)
+			}
+		})
+}
+
+export const deletePost = (req, res) => {
+	// Get postId from req.params
+	Post.findOne({ _id: req.params.postId })
+		.populate('createdBy', '_id')
+		.exec((err, post) => {
+			// Check if post exists
+			if (err || !post) {
+				return res.status(422).json({ error: err })
+			}
+			// Check that post creator matches logged user
+			// Need to convert to string because ObjectId
+			if (post.createdBy._id.toString() === req.user._id.toString()) {
+				// Remove post
+				post.remove()
+					.then((result) => {
+						res.json(result)
+					})
+					.catch((err) => {
+						console.log(err)
+					})
 			}
 		})
 }

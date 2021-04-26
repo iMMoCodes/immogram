@@ -56,6 +56,35 @@ export default makeStyles((theme) => ({
 	commentSendText: {
 		justifyContent: 'flex-end',
 	},
+
+	// Expanding on click
+	expand: {
+		transform: 'rotate(0deg)',
+		marginLeft: 'auto',
+		transition: theme.transitions.create('transform', {
+			duration: theme.transitions.duration.shortest,
+		}),
+	},
+	expandOpen: {
+		transform: 'rotate(180deg)',
+	},
+	collapseButtons: {
+		display: 'flex',
+		justifyContent: 'space-around',
+	},
+	deleteButton: {
+		backgroundColor: '#d50000',
+		'&:hover': {
+			backgroundColor: '#b71c1c',
+		},
+	},
+	editButton: {
+		backgroundColor: '#4caf50',
+		'&:hover': {
+			backgroundColor: '#2e7d32',
+		},
+	},
+
 	// Responsiveness
 	// XL
 	[theme.breakpoints.up('xl')]: {

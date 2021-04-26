@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import moment from 'moment'
+import clsx from 'clsx'
 import { useSelector } from 'react-redux'
-import { Avatar, Button, Card, CardActions, CardContent, CardHeader, CardMedia, IconButton, TextField, Typography } from '@material-ui/core'
+import { Avatar, Button, Card, Collapse, CardActions, CardContent, CardHeader, CardMedia, IconButton, TextField, Typography } from '@material-ui/core'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import FavoriteIcon from '@material-ui/icons/Favorite'
-import CommentIcon from '@material-ui/icons/Comment'
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt'
 import ThumbDownIcon from '@material-ui/icons/ThumbDown'
+import EditIcon from '@material-ui/icons/Edit'
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
 
 import { SERVER_URL } from '../../../constants/fetchURL'
 
@@ -15,8 +17,10 @@ import useStyles from './styles'
 const HomeCard = () => {
 	const [data, setData] = useState([])
 	const [loading, setLoading] = useState(true)
+	const [expanded, setExpanded] = useState(false)
 	const classes = useStyles()
 	const userState = useSelector((state) => state.user)
+	console.log(data)
 
 	// Like
 	const likePost = (id) => {
@@ -49,9 +53,9 @@ const HomeCard = () => {
 	}
 
 	// Dislike
-	const unlikePost = (id) => {
+	const dislikePost = (id) => {
 		// Make request
-		fetch(`${SERVER_URL}/post/unlike`, {
+		fetch(`${SERVER_URL}/post/dislike`, {
 			method: 'PATCH',
 			headers: {
 				'Content-Type': 'application/json',
@@ -108,6 +112,23 @@ const HomeCard = () => {
 			})
 	}
 
+	// Delete post
+	const deletePost = (postId) => {
+		fetch(`${SERVER_URL}/post/delete/${postId}`, {
+			method: 'DELETE',
+			headers: {
+				Authorization: 'Bearer ' + localStorage.getItem('jwt'),
+			},
+		})
+			.then((res) => res.json())
+			.then((result) => {
+				const newData = data.filter((item) => {
+					return item._id !== result._id
+				})
+				setData(newData)
+			})
+	}
+
 	useEffect(() => {
 		if (loading) {
 			// Make request to get posts
@@ -148,13 +169,53 @@ const HomeCard = () => {
 								</Avatar>
 							}
 							action={
-								<IconButton>
-									<MoreVertIcon />
-								</IconButton>
+								item.createdBy._id ===
+									userState._id && (
+									<IconButton
+										className={clsx(
+											classes.expand,
+											{
+												[classes.expandOpen]: expanded,
+											}
+										)}
+										onClick={() =>
+											setExpanded(
+												!expanded
+											)
+										}
+										aria-expanded={
+											expanded
+										}
+										aria-label='show more'
+									>
+										<MoreVertIcon />
+									</IconButton>
+								)
 							}
 							title={item.title}
 							subheader={moment(item.createdAt).fromNow()}
 						/>
+						<Collapse in={expanded} timeout='auto' unmountOnExit>
+							<CardActions className={classes.collapseButtons}>
+								<Button className={classes.editButton}>
+									<EditIcon />
+									Edit post
+								</Button>
+								<Button
+									className={
+										classes.deleteButton
+									}
+									onClick={() =>
+										deletePost(
+											item._id
+										)
+									}
+								>
+									<DeleteForeverIcon />
+									Delete post
+								</Button>
+							</CardActions>
+						</Collapse>
 						{/* IMAGE */}
 						<CardMedia className={classes.media} image={item.picture} />
 						<CardContent>
@@ -189,7 +250,7 @@ const HomeCard = () => {
 							{item.likes.includes(userState._id) ? (
 								<IconButton
 									onClick={() =>
-										unlikePost(
+										dislikePost(
 											item._id
 										)
 									}
