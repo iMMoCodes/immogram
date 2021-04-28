@@ -20,7 +20,6 @@ const HomeCard = () => {
 	const [expanded, setExpanded] = useState(false)
 	const classes = useStyles()
 	const userState = useSelector((state) => state.user)
-	console.log(data)
 
 	// Like
 	const likePost = (id) => {
@@ -129,6 +128,36 @@ const HomeCard = () => {
 			})
 	}
 
+	// Delete comment
+	const deleteComment = (text, postId) => {
+		fetch(`${SERVER_URL}/post/delete/comment`, {
+			method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: 'Bearer ' + localStorage.getItem('jwt'),
+			},
+			body: JSON.stringify({
+				postId,
+				text,
+			}),
+		})
+			.then((res) => res.json())
+			.then((result) => {
+				// Updated data
+				const newData = data.map((item) => {
+					if (item._id === result._id) {
+						return result
+					} else {
+						return item
+					}
+				})
+				setData(newData)
+			})
+			.catch((err) => {
+				console.log(err)
+			})
+	}
+
 	useEffect(() => {
 		if (loading) {
 			// Make request to get posts
@@ -159,33 +188,15 @@ const HomeCard = () => {
 					<Card className={classes.root} key={item._id}>
 						{/* HEADER */}
 						<CardHeader
-							avatar={
-								<Avatar className={classes.avatar}>
-									{item?.createdBy?.name
-										?.charAt(
-											0
-										)
-										.toUpperCase()}
-								</Avatar>
-							}
+							avatar={<Avatar className={classes.avatar}>{item?.createdBy?.name?.charAt(0).toUpperCase()}</Avatar>}
 							action={
-								item.createdBy._id ===
-									userState._id && (
+								item.createdBy._id === userState._id && (
 									<IconButton
-										className={clsx(
-											classes.expand,
-											{
-												[classes.expandOpen]: expanded,
-											}
-										)}
-										onClick={() =>
-											setExpanded(
-												!expanded
-											)
-										}
-										aria-expanded={
-											expanded
-										}
+										className={clsx(classes.expand, {
+											[classes.expandOpen]: expanded,
+										})}
+										onClick={() => setExpanded(!expanded)}
+										aria-expanded={expanded}
 										aria-label='show more'
 									>
 										<MoreVertIcon />
@@ -201,16 +212,7 @@ const HomeCard = () => {
 									<EditIcon />
 									Edit post
 								</Button>
-								<Button
-									className={
-										classes.deleteButton
-									}
-									onClick={() =>
-										deletePost(
-											item._id
-										)
-									}
-								>
+								<Button className={classes.deleteButton} onClick={() => deletePost(item._id)}>
 									<DeleteForeverIcon />
 									Delete post
 								</Button>
@@ -220,11 +222,7 @@ const HomeCard = () => {
 						<CardMedia className={classes.media} image={item.picture} />
 						<CardContent>
 							{/* DESCRIPTION */}
-							<Typography
-								variant='body2'
-								color='textSecondary'
-								component='p'
-							>
+							<Typography variant='body2' color='textSecondary' component='p'>
 								{item.body}
 							</Typography>
 						</CardContent>
@@ -232,108 +230,51 @@ const HomeCard = () => {
 						<CardActions className={classes.actionButtons}>
 							{/* FAVORITE */}
 							<IconButton>
-								<FavoriteIcon
-									className={
-										classes.favoriteIcon
-									}
-								/>
-								<Typography
-									variant='h6'
-									className={
-										classes.iconTexts
-									}
-								>
+								<FavoriteIcon className={classes.favoriteIcon} />
+								<Typography variant='h6' className={classes.iconTexts}>
 									&nbsp;Favorite
 								</Typography>
 							</IconButton>
 							{/* LIKE */}
 							{item.likes.includes(userState._id) ? (
-								<IconButton
-									onClick={() =>
-										dislikePost(
-											item._id
-										)
-									}
-								>
-									<ThumbDownIcon
-										className={
-											classes.unlikeIcon
-										}
-									/>
-									<Typography
-										variant='h6'
-										className={
-											classes.iconTexts
-										}
-									>
+								<IconButton onClick={() => dislikePost(item._id)}>
+									<ThumbDownIcon className={classes.unlikeIcon} />
+									<Typography variant='h6' className={classes.iconTexts}>
 										&nbsp;
-										{
-											item
-												.likes
-												.length
-										}
+										{item.likes.length}
 									</Typography>
 								</IconButton>
 							) : (
-								<IconButton
-									onClick={() =>
-										likePost(
-											item._id
-										)
-									}
-								>
-									<ThumbUpAltIcon
-										className={
-											classes.likeIcon
-										}
-									/>
-									<Typography
-										variant='h6'
-										className={
-											classes.iconTexts
-										}
-									>
+								<IconButton onClick={() => likePost(item._id)}>
+									<ThumbUpAltIcon className={classes.likeIcon} />
+									<Typography variant='h6' className={classes.iconTexts}>
 										&nbsp;
-										{
-											item
-												.likes
-												.length
-										}
+										{item.likes.length}
 									</Typography>
 								</IconButton>
 							)}
 						</CardActions>
+						{/* COMMENTS */}
 						{item.comments.map((comment) => {
 							return (
-								<div
-									className={
-										classes.commentArea
-									}
-									key={comment._id}
-								>
-									<Typography
-										className={
-											classes.commentSender
-										}
-										variant='h6'
-									>
-										{
-											comment
-												.createdBy
-												.name
-										}
+								<div className={classes.commentArea} key={comment._id}>
+									<Typography className={classes.commentSender} variant='h6'>
+										{comment.createdBy.name}
 										&nbsp;:&nbsp;
 									</Typography>
-									<Typography
-										className={
-											classes.commentSendText
-										}
-										variant='body2'
-									>
-										{
-											comment.text
-										}
+									<Typography className={classes.commentSendText} variant='body2'>
+										{comment.text}
 									</Typography>
+									{comment.createdBy._id === userState.id && (
+										<Button
+											className={classes.deleteCommentButton}
+											onClick={() => {
+												deleteComment(comment.text, item._id)
+											}}
+										>
+											<DeleteForeverIcon />
+										</Button>
+									)}
 								</div>
 							)
 						})}
@@ -345,11 +286,7 @@ const HomeCard = () => {
 							className={classes.commentField}
 							noValidate
 						>
-							<TextField
-								variant='outlined'
-								label='Add a comment'
-								className={classes.commentText}
-							/>
+							<TextField variant='outlined' label='Add a comment' className={classes.commentText} />
 							<Button type='submit' className={classes.sendComment}>
 								Send
 							</Button>

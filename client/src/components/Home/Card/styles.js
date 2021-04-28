@@ -48,13 +48,19 @@ export default makeStyles((theme) => ({
 	commentArea: {
 		display: 'flex',
 		alignItems: 'center',
+		justifyContent: 'space-between',
 		margin: '10px 10px',
 	},
-	commentSender: {
+	commentSendText: {
+		flex: '4',
 		justifyContent: 'flex-start',
 	},
-	commentSendText: {
-		justifyContent: 'flex-end',
+	deleteCommentButton: {
+		height: '20px',
+		color: '#d50000',
+		'&:hover': {
+			color: '#b71c1c',
+		},
 	},
 
 	// Expanding on click

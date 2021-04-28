@@ -34,7 +34,8 @@ export const createPost = (req, res) => {
 		createdAt: new Date().toISOString(),
 	})
 	// Save post
-	post.save()
+	post
+		.save()
 		.then((result) => {
 			res.json({ post: result })
 		})
@@ -140,6 +141,7 @@ export const createComment = (req, res) => {
 		})
 }
 
+// Delete post
 export const deletePost = (req, res) => {
 	// Get postId from req.params
 	Post.findOne({ _id: req.params.postId })
@@ -153,13 +155,45 @@ export const deletePost = (req, res) => {
 			// Need to convert to string because ObjectId
 			if (post.createdBy._id.toString() === req.user._id.toString()) {
 				// Remove post
-				post.remove()
+				post
+					.remove()
 					.then((result) => {
 						res.json(result)
 					})
 					.catch((err) => {
 						console.log(err)
 					})
+			}
+		})
+}
+
+// Delete comment
+export const deleteComment = (req, res) => {
+	const comment = {
+		text: req.body.text,
+		createdBy: req.user._id,
+	}
+	// Get post by ID that is sent
+	Post.findByIdAndUpdate(
+		req.body.postId,
+		{
+			// Pull comment from comments array
+			$pull: { comments: comment },
+		},
+		// To get a new version
+		{
+			new: true,
+			useFindAndModify: false,
+		}
+	)
+		// Get id and name from _id
+		.populate('comments.createdBy', '_id name')
+		.populate('createdBy', '_id name')
+		.exec((err, result) => {
+			if (err) {
+				return res.status(422).json({ error: err })
+			} else {
+				res.json(result)
 			}
 		})
 }
