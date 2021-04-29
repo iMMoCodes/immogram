@@ -12,3 +12,10 @@ export const logOut = () => {
 		type: actionType.LOGOUT,
 	}
 }
+
+export const updateUser = (following, followers) => {
+	return {
+		type: actionType.UPDATE_USER,
+		payload: { following, followers },
+	}
+}

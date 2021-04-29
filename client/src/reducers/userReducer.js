@@ -6,6 +6,12 @@ export const userReducer = (state = null, action) => {
 			return action.payload
 		case actionType.LOGOUT:
 			return null
+		case actionType.UPDATE_USER:
+			return {
+				...state,
+				followers: action.payload.followers,
+				following: action.payload.following,
+			}
 		default:
 			return state
 	}

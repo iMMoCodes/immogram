@@ -18,7 +18,8 @@ export default makeStyles((theme) => ({
 	},
 	userStats: {
 		display: 'flex',
-		width: '280px',
+		width: '800px',
+		alignItems: 'center',
 		justifyContent: 'space-around',
 	},
 	userName: {
@@ -43,6 +44,12 @@ export default makeStyles((theme) => ({
 		color: '#bdbdbd',
 	},
 	// Responsiveness
+	// MD
+	[theme.breakpoints.down('md')]: {
+		userStats: {
+			width: '570px',
+		},
+	},
 	// SM
 	[theme.breakpoints.down('sm')]: {
 		paper: {
@@ -53,6 +60,7 @@ export default makeStyles((theme) => ({
 		},
 		userStats: {
 			margin: '10px auto',
+			width: '470px',
 		},
 		usersPostedImages: {
 			height: '170px',

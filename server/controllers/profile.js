@@ -21,3 +21,74 @@ export const getProfile = (req, res) => {
 			return res.status(404).json({ error: 'User not found.' })
 		})
 }
+
+// Follow
+// If someone follows -> other users followers +1 -> user following +1
+export const followUser = (req, res) => {
+	// Find the person to follow
+	User.findByIdAndUpdate(
+		req.body.followId,
+		{
+			// Push logged in ID to other persons followers
+			$push: { followers: req.user._id },
+		},
+		{ new: true, useFindAndModify: false },
+		(err, result) => {
+			if (err) {
+				return res.status(422).json({ error: err })
+			}
+			// Find the logged in user
+			User.findByIdAndUpdate(
+				req.user._id,
+				{
+					// Push the other users ID to logged in users following array
+					$push: { following: req.body.followId },
+				},
+				{ new: true, useFindAndModify: false }
+			)
+				// Remove password
+				.select('-password')
+				.then((result) => {
+					res.json(result)
+				})
+				.catch((err) => {
+					return res.status(422).json({ error: err })
+				})
+		}
+	)
+}
+
+// Unfollow
+export const unfollowUser = (req, res) => {
+	// Find the person to unfollow
+	User.findByIdAndUpdate(
+		req.body.unfollowId,
+		{
+			// Pull logged in ID to other persons followers
+			$pull: { followers: req.user._id },
+		},
+		{ new: true, useFindAndModify: false },
+		(err, result) => {
+			if (err) {
+				return res.status(422).json({ error: err })
+			}
+			// Find the logged in user
+			User.findByIdAndUpdate(
+				req.user._id,
+				{
+					// Pull the other users ID from logged in users following array
+					$pull: { following: req.body.unfollowId },
+				},
+				{ new: true, useFindAndModify: false }
+			)
+				// Remove password
+				.select('-password')
+				.then((result) => {
+					res.json(result)
+				})
+				.catch((err) => {
+					return res.status(422).json({ error: err })
+				})
+		}
+	)
+}

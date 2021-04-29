@@ -18,7 +18,8 @@ export default makeStyles((theme) => ({
 	},
 	userStats: {
 		display: 'flex',
-		width: '280px',
+		width: '800px',
+		alignItems: 'center',
 		justifyContent: 'space-around',
 	},
 	userName: {
@@ -42,7 +43,35 @@ export default makeStyles((theme) => ({
 	usersInfoText: {
 		color: '#bdbdbd',
 	},
+	followButton: {
+		width: '120px',
+		height: '60px',
+		border: '1px solid #cddc39',
+	},
+	followIcon: {
+		color: '#cddc39',
+	},
+	followText: {
+		color: '#cddc39',
+	},
+	unfollowButton: {
+		width: '120px',
+		height: '60px',
+		border: '1px solid #ff9800',
+	},
+	unfollowIcon: {
+		color: '#ff9800',
+	},
+	unfollowText: {
+		color: '#ff9800',
+	},
 	// Responsiveness
+	// MD
+	[theme.breakpoints.down('md')]: {
+		userStats: {
+			width: '570px',
+		},
+	},
 	// SM
 	[theme.breakpoints.down('sm')]: {
 		paper: {
@@ -53,6 +82,7 @@ export default makeStyles((theme) => ({
 		},
 		userStats: {
 			margin: '10px auto',
+			width: '470px',
 		},
 		usersPostedImages: {
 			height: '170px',

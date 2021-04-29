@@ -40,13 +40,13 @@ const Profile = () => {
 					</Typography>
 					<div className={classes.userStats}>
 						<Typography variant='h5' align='center' className={classes.usersInfoText}>
-							40 posts
+							{ownPosts.length} posts
 						</Typography>
 						<Typography variant='h5' align='center' className={classes.usersInfoText}>
-							40 followers
+							{userState.followers.length} followers
 						</Typography>
 						<Typography variant='h5' align='center' className={classes.usersInfoText}>
-							40 following
+							{userState.following.length} following
 						</Typography>
 					</div>
 				</Grid>
@@ -57,14 +57,7 @@ const Profile = () => {
 					Posts
 				</Typography>
 				{ownPosts.map((post) => {
-					return (
-						<img
-							key={post._id}
-							alt={post.title}
-							className={classes.usersPostedImages}
-							src={post.picture}
-						/>
-					)
+					return <img key={post._id} alt={post.title} className={classes.usersPostedImages} src={post.picture} />
 				})}
 			</Card>
 		</Container>

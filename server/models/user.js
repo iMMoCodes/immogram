@@ -1,5 +1,7 @@
 import mongoose from 'mongoose'
 
+const { ObjectId } = mongoose.Schema.Types
+
 // Create user Schema
 const userSchema = mongoose.Schema({
 	name: {
@@ -14,6 +16,18 @@ const userSchema = mongoose.Schema({
 		type: String,
 		required: true,
 	},
+	followers: [
+		{
+			type: ObjectId,
+			ref: 'User',
+		},
+	],
+	following: [
+		{
+			type: ObjectId,
+			ref: 'User',
+		},
+	],
 })
 
 // Export Schema
