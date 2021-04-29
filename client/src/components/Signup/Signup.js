@@ -19,12 +19,6 @@ const Signup = () => {
 	const classes = useStyles()
 	const history = useHistory()
 
-	useEffect(() => {
-		if (url) {
-			uploadProfileInfo()
-		}
-	}, [url])
-
 	const uploadProfilePic = () => {
 		// To upload a file
 		const data = new FormData()
@@ -87,6 +81,12 @@ const Signup = () => {
 			uploadProfileInfo()
 		}
 	}
+
+	useEffect(() => {
+		if (url) {
+			uploadProfileInfo()
+		}
+	}, [url])
 
 	return (
 		<Container>

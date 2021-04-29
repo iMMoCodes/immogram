@@ -30,7 +30,7 @@ const UserProfile = () => {
 			.then((result) => {
 				setUserProfile(result)
 			})
-	}, [])
+	}, [userId])
 
 	const followUser = () => {
 		fetch(`${SERVER_URL}/profile/follow`, {

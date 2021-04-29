@@ -158,7 +158,7 @@ const HomeCard = () => {
 				console.log(err)
 			})
 	}
-
+	// Get posts
 	useEffect(() => {
 		if (loading) {
 			// Make request to get posts
@@ -195,32 +195,54 @@ const HomeCard = () => {
 								</Avatar>
 							}
 							action={
-								item.createdBy._id === userState._id && (
-									<IconButton
-										className={clsx(classes.expand, {
-											[classes.expandOpen]: expanded,
-										})}
-										onClick={() => setExpanded(!expanded)}
-										aria-expanded={expanded}
-										aria-label='show more'
-									>
-										<MoreVertIcon />
-									</IconButton>
-								)
+								<IconButton
+									className={clsx(classes.expand, {
+										[classes.expandOpen]: expanded,
+									})}
+									onClick={() => setExpanded(!expanded)}
+									aria-expanded={expanded}
+									aria-label='show more'
+								>
+									<MoreVertIcon />
+								</IconButton>
 							}
 							title={item.title}
 							subheader={moment(item.createdAt).fromNow()}
 						/>
 						<Collapse in={expanded} timeout='auto' unmountOnExit>
 							<CardActions className={classes.collapseButtons}>
-								<Button className={classes.editButton}>
-									<EditIcon />
-									Edit post
-								</Button>
-								<Button className={classes.deleteButton} onClick={() => deletePost(item._id)}>
-									<DeleteForeverIcon />
-									Delete post
-								</Button>
+								{item.createdBy._id === userState._id ? (
+									<>
+										<Button className={classes.editButton}>
+											<EditIcon />
+											Edit post
+										</Button>
+										<Button className={classes.deleteButton} onClick={() => deletePost(item._id)}>
+											<DeleteForeverIcon />
+											Delete post
+										</Button>
+									</>
+								) : (
+									<>
+										{item.likes.includes(userState._id) ? (
+											<IconButton onClick={() => dislikePost(item._id)}>
+												<ThumbDownIcon className={classes.unlikeIcon} />
+												<Typography variant='h6' className={classes.iconTexts}>
+													&nbsp;
+													{item.likes.length}
+												</Typography>
+											</IconButton>
+										) : (
+											<IconButton onClick={() => likePost(item._id)}>
+												<ThumbUpAltIcon className={classes.likeIcon} />
+												<Typography variant='h6' className={classes.iconTexts}>
+													&nbsp;
+													{item.likes.length}
+												</Typography>
+											</IconButton>
+										)}
+									</>
+								)}
 							</CardActions>
 						</Collapse>
 						{/* IMAGE */}
@@ -231,34 +253,6 @@ const HomeCard = () => {
 								{item.body}
 							</Typography>
 						</CardContent>
-						{/* CARD BUTTONS */}
-						<CardActions className={classes.actionButtons}>
-							{/* FAVORITE */}
-							<IconButton>
-								<FavoriteIcon className={classes.favoriteIcon} />
-								<Typography variant='h6' className={classes.iconTexts}>
-									&nbsp;Favorite
-								</Typography>
-							</IconButton>
-							{/* LIKE */}
-							{item.likes.includes(userState._id) ? (
-								<IconButton onClick={() => dislikePost(item._id)}>
-									<ThumbDownIcon className={classes.unlikeIcon} />
-									<Typography variant='h6' className={classes.iconTexts}>
-										&nbsp;
-										{item.likes.length}
-									</Typography>
-								</IconButton>
-							) : (
-								<IconButton onClick={() => likePost(item._id)}>
-									<ThumbUpAltIcon className={classes.likeIcon} />
-									<Typography variant='h6' className={classes.iconTexts}>
-										&nbsp;
-										{item.likes.length}
-									</Typography>
-								</IconButton>
-							)}
-						</CardActions>
 						{/* COMMENTS */}
 						{item.comments.map((comment) => {
 							return (
@@ -270,7 +264,7 @@ const HomeCard = () => {
 									<Typography className={classes.commentSendText} variant='body2'>
 										{comment.text}
 									</Typography>
-									{comment.createdBy._id === userState.id && (
+									{comment.createdBy._id === userState._id && (
 										<Button
 											className={classes.deleteCommentButton}
 											onClick={() => {

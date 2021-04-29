@@ -18,19 +18,6 @@ const Profile = () => {
 	const userState = useSelector((state) => state.user)
 	const dispatch = useDispatch()
 
-	useEffect(() => {
-		// Send request to get own posts
-		fetch(`${SERVER_URL}/post/ownposts`, {
-			headers: {
-				Authorization: 'Bearer ' + localStorage.getItem('jwt'),
-			},
-		})
-			.then((res) => res.json())
-			.then((result) => {
-				setOwnPosts(result.myPosts)
-			})
-	}, [])
-
 	const sendPicToBackEnd = (pictureUrl) => {
 		fetch(`${SERVER_URL}/profile/updatepic`, {
 			method: 'PATCH',
@@ -77,6 +64,19 @@ const Profile = () => {
 	const updateProfilePic = (file) => {
 		setImage(file)
 	}
+
+	useEffect(() => {
+		// Send request to get own posts
+		fetch(`${SERVER_URL}/post/ownposts`, {
+			headers: {
+				Authorization: 'Bearer ' + localStorage.getItem('jwt'),
+			},
+		})
+			.then((res) => res.json())
+			.then((result) => {
+				setOwnPosts(result.myPosts)
+			})
+	}, [])
 
 	return (
 		<Container>

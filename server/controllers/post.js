@@ -6,6 +6,7 @@ export const getPosts = (req, res) => {
 	Post.find()
 		// Turn ObjectId to actual fields
 		.populate('createdBy', '_id name')
+		.populate('comments.createdBy', '_id name')
 		// Return posts
 		.then((posts) => {
 			res.json({ posts })
@@ -159,7 +160,8 @@ export const createComment = (req, res) => {
 export const deletePost = (req, res) => {
 	// Get postId from req.params
 	Post.findOne({ _id: req.params.postId })
-		.populate('createdBy', '_id')
+		.populate('createdBy', '_id name')
+		.populate('comments.createdBy', '_id name')
 		.exec((err, post) => {
 			// Check if post exists
 			if (err || !post) {
@@ -199,15 +201,11 @@ export const deleteComment = (req, res) => {
 			new: true,
 			useFindAndModify: false,
 		}
-	)
-		// Get id and name from _id
-		.populate('comments.createdBy', '_id name')
-		.populate('createdBy', '_id name')
-		.exec((err, result) => {
-			if (err) {
-				return res.status(422).json({ error: err })
-			} else {
-				res.json(result)
-			}
-		})
+	).exec((err, result) => {
+		if (err) {
+			return res.status(422).json({ error: err })
+		} else {
+			res.json(result)
+		}
+	})
 }
