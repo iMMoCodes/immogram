@@ -10,6 +10,7 @@ import Profile from '../Profile/Profile'
 import Signin from '../Signin/Signin'
 import Signup from '../Signup/Signup'
 import CreatePost from '../CreatePost/CreatePost'
+import UserProfile from '../UserProfile/UserProfile'
 
 const Routing = () => {
 	const history = useHistory()
@@ -36,6 +37,7 @@ const Routing = () => {
 			<Route path='/signin' exact component={Signin} />
 			<Route path='/signup' exact component={Signup} />
 			<Route path='/createpost' exact component={CreatePost} />
+			<Route path='/profile/:userId' exact component={UserProfile} />
 		</Switch>
 	)
 }

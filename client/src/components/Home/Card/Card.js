@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import moment from 'moment'
 import clsx from 'clsx'
 import { useSelector } from 'react-redux'
@@ -188,7 +189,11 @@ const HomeCard = () => {
 					<Card className={classes.root} key={item._id}>
 						{/* HEADER */}
 						<CardHeader
-							avatar={<Avatar className={classes.avatar}>{item?.createdBy?.name?.charAt(0).toUpperCase()}</Avatar>}
+							avatar={
+								<Avatar component={Link} to={`/profile/${item.createdBy._id}`} className={classes.avatar}>
+									{item?.createdBy?.name?.charAt(0).toUpperCase()}
+								</Avatar>
+							}
 							action={
 								item.createdBy._id === userState._id && (
 									<IconButton
