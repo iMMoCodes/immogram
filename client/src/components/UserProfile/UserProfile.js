@@ -14,10 +14,10 @@ import Loader from '../../helpers/Loader/Loader'
 const UserProfile = () => {
 	const classes = useStyles()
 	const [userProfile, setUserProfile] = useState(null)
-	const [isFollowing, setIsFollowing] = useState(false)
 	const userState = useSelector((state) => state.user)
 	const { userId } = useParams()
 	const dispatch = useDispatch()
+	const [isFollowing, setIsFollowing] = useState(userState?.following.includes(userId))
 
 	useEffect(() => {
 		// Send request to get own posts
