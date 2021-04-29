@@ -15,7 +15,6 @@ const Profile = () => {
 	const classes = useStyles()
 	const [ownPosts, setOwnPosts] = useState([])
 	const [image, setImage] = useState('')
-	const [url, setUrl] = useState('')
 	const userState = useSelector((state) => state.user)
 	const dispatch = useDispatch()
 
@@ -32,6 +31,25 @@ const Profile = () => {
 			})
 	}, [])
 
+	const sendPicToBackEnd = (pictureUrl) => {
+		fetch(`${SERVER_URL}/profile/updatepic`, {
+			method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: 'Bearer ' + localStorage.getItem('jwt'),
+			},
+			body: JSON.stringify({
+				picture: pictureUrl,
+			}),
+		})
+			.then((res) => res.json())
+			.then((result) => {
+				// Save to front end
+				localStorage.setItem('user', JSON.stringify({ ...userState, picture: result.picture }))
+				dispatch(updateUserPic(result.picture))
+			})
+	}
+
 	useEffect(() => {
 		if (image) {
 			// To upload a file
@@ -47,8 +65,8 @@ const Profile = () => {
 				// Convert JSON
 				.then((res) => res.json())
 				.then((data) => {
-					localStorage.setItem('user', JSON.stringify({ ...userState, picture: data.url }))
-					dispatch(updateUserPic(data.url))
+					// Send to backend
+					sendPicToBackEnd(data.url)
 				})
 				.catch((err) => {
 					console.log(err)

@@ -92,3 +92,22 @@ export const unfollowUser = (req, res) => {
 		}
 	)
 }
+
+export const updatePic = (req, res) => {
+	// Find currently logged in user
+	User.findByIdAndUpdate(
+		req.user._id,
+		// Set picture
+		{ $set: { picture: req.body.picture } },
+		// Options
+		{ new: true, useFindAndModify: false }
+	)
+		// Remove password
+		.select('-password')
+		.then((result) => {
+			res.json(result)
+		})
+		.catch((err) => {
+			return res.status(422).json({ error: err })
+		})
+}
