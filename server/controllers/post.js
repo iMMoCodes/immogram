@@ -89,6 +89,7 @@ export const likePost = (req, res) => {
 		}
 	)
 		.populate('createdBy', '_id name')
+		.populate('comments.createdBy', '_id name')
 		.exec((err, result) => {
 			if (err) {
 				return res.status(422).json({ error: err })
@@ -114,6 +115,7 @@ export const dislikePost = (req, res) => {
 		}
 	)
 		.populate('createdBy', '_id name')
+		.populate('comments.createdBy', '_id name')
 		.exec((err, result) => {
 			if (err) {
 				return res.status(422).json({ error: err })
