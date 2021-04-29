@@ -16,6 +16,10 @@ const userSchema = mongoose.Schema({
 		type: String,
 		required: true,
 	},
+	picture: {
+		type: String,
+		default: 'https://res.cloudinary.com/immocodes/image/upload/v1619716901/pexels-photo-1561020_jy55ef.jpg',
+	},
 	followers: [
 		{
 			type: ObjectId,

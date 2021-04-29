@@ -30,10 +30,7 @@ const Profile = () => {
 			<Paper className={classes.paper} elevation={3}>
 				<Grid>
 					{/* USER IMAGE */}
-					<Avatar
-						className={classes.avatar}
-						src='https://images.unsplash.com/photo-1503249023995-51b0f3778ccf?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjN8fHBlcnNvbnxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
-					/>
+					<Avatar className={classes.avatar} src={userState ? userState.picture : 'Loading'} />
 				</Grid>
 				{/* USERNAME AND USER INFO */}
 				<Grid className={classes.userInfoContainer}>
@@ -45,10 +42,10 @@ const Profile = () => {
 							{ownPosts.length} posts
 						</Typography>
 						<Typography variant='h5' align='center' className={classes.usersInfoText}>
-							{userState.followers.length} followers
+							{userState?.followers?.length} followers
 						</Typography>
 						<Typography variant='h5' align='center' className={classes.usersInfoText}>
-							{userState.following.length} following
+							{userState?.following?.length} following
 						</Typography>
 					</div>
 					<Button component={Link} to='/followedPosts' variant='contained' className={classes.followedPostsButton}>

@@ -10,7 +10,7 @@ export default makeStyles((theme) => ({
 		paddingTop: '56.25%',
 	},
 	avatar: {
-		backgroundColor: 'red',
+		backgroundColor: '#ff8f00',
 	},
 	actionButtons: {
 		display: 'flex',

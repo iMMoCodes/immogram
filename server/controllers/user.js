@@ -6,7 +6,7 @@ import User from '../models/user.js'
 // Sign Up
 export const signup = (req, res) => {
 	// Get data from request
-	const { name, email, password } = req.body
+	const { name, email, password, picture } = req.body
 	// Check if all field are filled
 	if (!name || !email || !password) {
 		return res.status(422).json({ error: 'Please fill all the fields.' })
@@ -24,6 +24,7 @@ export const signup = (req, res) => {
 					name,
 					email,
 					password: hashedPassword,
+					picture,
 				})
 				// Save user
 				user
@@ -62,9 +63,9 @@ export const signin = (req, res) => {
 					// Create token for user
 					const token = jwt.sign({ id: savedUser._id }, process.env.JWT_SECRET)
 					// Destructure data from saved user
-					const { _id, name, email, followers, following } = savedUser
+					const { _id, name, email, followers, following, picture } = savedUser
 					// Send back token and user
-					res.json({ token, user: { _id, name, email, followers, following } })
+					res.json({ token, user: { _id, name, email, followers, following, picture } })
 				}
 				// Passwords don't match
 				else {
