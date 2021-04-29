@@ -15,6 +15,20 @@ export const getPosts = (req, res) => {
 		})
 }
 
+export const getFollowedPosts = (req, res) => {
+	// Find posts created by the person followed
+	Post.find({ createdBy: { $in: req.user.following } })
+		// Turn ObjectId to actual fields
+		.populate('createdBy', '_id name')
+		// Return posts
+		.then((posts) => {
+			res.json({ posts })
+		})
+		.catch((err) => {
+			console.log(err)
+		})
+}
+
 // Create post
 export const createPost = (req, res) => {
 	// Get data from request

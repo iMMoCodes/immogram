@@ -26,7 +26,8 @@ export const signup = (req, res) => {
 					password: hashedPassword,
 				})
 				// Save user
-				user.save()
+				user
+					.save()
 					.then((user) => {
 						res.status(201).json({ message: 'User succesfully saved.' })
 					})
@@ -53,16 +54,17 @@ export const signin = (req, res) => {
 			return res.status(422).json({ error: 'Invalid email or password.' })
 		}
 		// Compare passwords
-		bcrypt.compare(password, savedUser.password)
+		bcrypt
+			.compare(password, savedUser.password)
 			.then((doMatch) => {
 				// Passwords match
 				if (doMatch) {
 					// Create token for user
 					const token = jwt.sign({ id: savedUser._id }, process.env.JWT_SECRET)
 					// Destructure data from saved user
-					const { _id, name, email } = savedUser
+					const { _id, name, email, followers, following } = savedUser
 					// Send back token and user
-					res.json({ token, user: { _id, name, email } })
+					res.json({ token, user: { _id, name, email, followers, following } })
 				}
 				// Passwords don't match
 				else {

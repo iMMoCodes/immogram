@@ -43,6 +43,15 @@ export default makeStyles((theme) => ({
 	usersInfoText: {
 		color: '#bdbdbd',
 	},
+	followedPostsButton: {
+		display: 'flex',
+		width: '200px',
+		margin: '10px auto',
+		backgroundColor: '#ffeb3b',
+		'&:hover': {
+			backgroundColor: '#f9a825',
+		},
+	},
 	// Responsiveness
 	// MD
 	[theme.breakpoints.down('md')]: {

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { Container, Paper, Avatar, Grid, Typography, Card } from '@material-ui/core'
+import { Link } from 'react-router-dom'
+import { Container, Paper, Avatar, Grid, Typography, Card, Button } from '@material-ui/core'
+import StarIcon from '@material-ui/icons/Star'
 
 import useStyles from './styles'
 import { SERVER_URL } from '../../constants/fetchURL'
@@ -49,6 +51,10 @@ const Profile = () => {
 							{userState.following.length} following
 						</Typography>
 					</div>
+					<Button component={Link} to='/followedPosts' variant='contained' className={classes.followedPostsButton}>
+						<StarIcon />
+						<Typography variant='body2'>Followed Posts</Typography>
+					</Button>
 				</Grid>
 			</Paper>
 			{/* USER POSTS */}
