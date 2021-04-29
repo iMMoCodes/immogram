@@ -12,6 +12,11 @@ export const userReducer = (state = null, action) => {
 				followers: action.payload.followers,
 				following: action.payload.following,
 			}
+		case actionType.UPDATE_PROFILE_PIC:
+			return {
+				...state,
+				picture: action.payload,
+			}
 		default:
 			return state
 	}

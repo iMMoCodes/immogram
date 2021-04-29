@@ -1,16 +1,23 @@
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Container, Paper, Avatar, Grid, Typography, Card, Button } from '@material-ui/core'
 import StarIcon from '@material-ui/icons/Star'
+import FileBase from 'react-file-base64'
+
+import { updateUserPic } from '../../actions/user'
 
 import useStyles from './styles'
 import { SERVER_URL } from '../../constants/fetchURL'
+import { IMAGE_SERVER_URL } from '../../constants/fetchURL'
 
 const Profile = () => {
 	const classes = useStyles()
 	const [ownPosts, setOwnPosts] = useState([])
+	const [image, setImage] = useState('')
+	const [url, setUrl] = useState('')
 	const userState = useSelector((state) => state.user)
+	const dispatch = useDispatch()
 
 	useEffect(() => {
 		// Send request to get own posts
@@ -25,12 +32,50 @@ const Profile = () => {
 			})
 	}, [])
 
+	useEffect(() => {
+		if (image) {
+			// To upload a file
+			const data = new FormData()
+			data.append('file', image)
+			data.append('upload_preset', 'immogram')
+			data.append('cloud_name', 'immocodes')
+			// Make request
+			fetch(`${IMAGE_SERVER_URL}/image/upload`, {
+				method: 'POST',
+				body: data,
+			})
+				// Convert JSON
+				.then((res) => res.json())
+				.then((data) => {
+					localStorage.setItem('user', JSON.stringify({ ...userState, picture: data.url }))
+					dispatch(updateUserPic(data.url))
+				})
+				.catch((err) => {
+					console.log(err)
+				})
+		}
+	}, [image])
+	// Update profile picture
+	const updateProfilePic = (file) => {
+		setImage(file)
+	}
+
 	return (
 		<Container>
 			<Paper className={classes.paper} elevation={3}>
-				<Grid>
+				<Grid className={classes.pictureContainer}>
 					{/* USER IMAGE */}
 					<Avatar className={classes.avatar} src={userState ? userState.picture : 'Loading'} />
+					<div className={classes.relativeContainer}>
+						<div className={classes.updateButtonContainer}>
+							<Button className={classes.updatePictureButton} variant='contained'>
+								Change Picture
+							</Button>
+						</div>
+						<div className={classes.fileInputContainer}>
+							<FileBase type='file' multiple={false} onDone={({ base64 }) => updateProfilePic(base64)} />
+						</div>
+					</div>
 				</Grid>
 				{/* USERNAME AND USER INFO */}
 				<Grid className={classes.userInfoContainer}>

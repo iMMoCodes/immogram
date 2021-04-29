@@ -19,3 +19,10 @@ export const updateUser = (following, followers) => {
 		payload: { following, followers },
 	}
 }
+
+export const updateUserPic = (newURL) => {
+	return {
+		type: actionType.UPDATE_PROFILE_PIC,
+		payload: newURL,
+	}
+}

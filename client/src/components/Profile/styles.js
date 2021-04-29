@@ -11,7 +11,7 @@ export default makeStyles((theme) => ({
 	avatar: {
 		height: '160px',
 		width: '160px',
-		margin: '10px 50px',
+		marginBottom: '10px',
 	},
 	userInfoContainer: {
 		margin: '0 30px',
@@ -52,6 +52,37 @@ export default makeStyles((theme) => ({
 			backgroundColor: '#f9a825',
 		},
 	},
+	pictureContainer: {
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+	updatePictureButton: {
+		height: '20px',
+		width: '254px',
+		backgroundColor: '#000000',
+		'&:hover': {
+			backgroundColor: '#000000',
+		},
+		color: '#bdbdbd',
+		cursor: 'default',
+	},
+	relativeContainer: {
+		position: 'relative',
+	},
+	fileInputContainer: {
+		position: 'absolute',
+		bottom: '-25px',
+		left: '-127px',
+		opacity: '0',
+		zIndex: '2',
+	},
+	updateButtonContainer: {
+		position: 'absolute',
+		bottom: '-25px',
+		left: '-127px',
+	},
 	// Responsiveness
 	// MD
 	[theme.breakpoints.down('md')]: {
@@ -66,6 +97,9 @@ export default makeStyles((theme) => ({
 		},
 		avatar: {
 			margin: '10px auto',
+		},
+		userInfoContainer: {
+			marginTop: '40px',
 		},
 		userStats: {
 			margin: '10px auto',
