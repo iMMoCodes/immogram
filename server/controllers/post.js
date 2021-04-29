@@ -88,7 +88,6 @@ export const likePost = (req, res) => {
 			useFindAndModify: false,
 		}
 	)
-		.populate('comments.createdBy', '_id name')
 		.populate('createdBy', '_id name')
 		.exec((err, result) => {
 			if (err) {
@@ -114,7 +113,6 @@ export const dislikePost = (req, res) => {
 			useFindAndModify: false,
 		}
 	)
-		.populate('comments.createdBy', '_id name')
 		.populate('createdBy', '_id name')
 		.exec((err, result) => {
 			if (err) {
@@ -145,8 +143,8 @@ export const createComment = (req, res) => {
 		}
 	)
 		// Get id and name from _id
-		.populate('comments.createdBy', '_id name')
 		.populate('createdBy', '_id name')
+		.populate('comments.createdBy', '_id name')
 		.exec((err, result) => {
 			if (err) {
 				return res.status(422).json({ error: err })
@@ -161,7 +159,6 @@ export const deletePost = (req, res) => {
 	// Get postId from req.params
 	Post.findOne({ _id: req.params.postId })
 		.populate('createdBy', '_id name')
-		.populate('comments.createdBy', '_id name')
 		.exec((err, post) => {
 			// Check if post exists
 			if (err || !post) {
@@ -201,11 +198,14 @@ export const deleteComment = (req, res) => {
 			new: true,
 			useFindAndModify: false,
 		}
-	).exec((err, result) => {
-		if (err) {
-			return res.status(422).json({ error: err })
-		} else {
-			res.json(result)
-		}
-	})
+	)
+		.populate('createdBy', '_id name')
+		.populate('comments.createdBy', '_id name')
+		.exec((err, result) => {
+			if (err) {
+				return res.status(422).json({ error: err })
+			} else {
+				res.json(result)
+			}
+		})
 }

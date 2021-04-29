@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import moment from 'moment'
-import clsx from 'clsx'
 import { useSelector } from 'react-redux'
-import { Avatar, Button, Card, Collapse, CardActions, CardContent, CardHeader, CardMedia, IconButton, TextField, Typography } from '@material-ui/core'
-import MoreVertIcon from '@material-ui/icons/MoreVert'
-import FavoriteIcon from '@material-ui/icons/Favorite'
+import { Avatar, Button, Card, CardActions, CardContent, CardHeader, CardMedia, IconButton, TextField, Typography } from '@material-ui/core'
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt'
 import ThumbDownIcon from '@material-ui/icons/ThumbDown'
 import EditIcon from '@material-ui/icons/Edit'
@@ -18,7 +15,6 @@ import useStyles from './styles'
 const HomeCard = () => {
 	const [data, setData] = useState([])
 	const [loading, setLoading] = useState(true)
-	const [expanded, setExpanded] = useState(false)
 	const classes = useStyles()
 	const userState = useSelector((state) => state.user)
 
@@ -194,57 +190,43 @@ const HomeCard = () => {
 									{item?.createdBy?.name?.charAt(0).toUpperCase()}
 								</Avatar>
 							}
-							action={
-								<IconButton
-									className={clsx(classes.expand, {
-										[classes.expandOpen]: expanded,
-									})}
-									onClick={() => setExpanded(!expanded)}
-									aria-expanded={expanded}
-									aria-label='show more'
-								>
-									<MoreVertIcon />
-								</IconButton>
-							}
 							title={item.title}
 							subheader={moment(item.createdAt).fromNow()}
 						/>
-						<Collapse in={expanded} timeout='auto' unmountOnExit>
-							<CardActions className={classes.collapseButtons}>
-								{item.createdBy._id === userState._id ? (
-									<>
-										<Button className={classes.editButton}>
-											<EditIcon />
-											Edit post
-										</Button>
-										<Button className={classes.deleteButton} onClick={() => deletePost(item._id)}>
-											<DeleteForeverIcon />
-											Delete post
-										</Button>
-									</>
-								) : (
-									<>
-										{item.likes.includes(userState._id) ? (
-											<IconButton onClick={() => dislikePost(item._id)}>
-												<ThumbDownIcon className={classes.unlikeIcon} />
-												<Typography variant='h6' className={classes.iconTexts}>
-													&nbsp;
-													{item.likes.length}
-												</Typography>
-											</IconButton>
-										) : (
-											<IconButton onClick={() => likePost(item._id)}>
-												<ThumbUpAltIcon className={classes.likeIcon} />
-												<Typography variant='h6' className={classes.iconTexts}>
-													&nbsp;
-													{item.likes.length}
-												</Typography>
-											</IconButton>
-										)}
-									</>
-								)}
-							</CardActions>
-						</Collapse>
+						<CardActions className={classes.collapseButtons}>
+							{item.createdBy._id === userState._id ? (
+								<>
+									<Button className={classes.editButton}>
+										<EditIcon />
+										Edit post
+									</Button>
+									<Button className={classes.deleteButton} onClick={() => deletePost(item._id)}>
+										<DeleteForeverIcon />
+										Delete post
+									</Button>
+								</>
+							) : (
+								<>
+									{item.likes.includes(userState._id) ? (
+										<IconButton onClick={() => dislikePost(item._id)}>
+											<ThumbDownIcon className={classes.unlikeIcon} />
+											<Typography variant='h6' className={classes.iconTexts}>
+												&nbsp;
+												{item.likes.length}
+											</Typography>
+										</IconButton>
+									) : (
+										<IconButton onClick={() => likePost(item._id)}>
+											<ThumbUpAltIcon className={classes.likeIcon} />
+											<Typography variant='h6' className={classes.iconTexts}>
+												&nbsp;
+												{item.likes.length}
+											</Typography>
+										</IconButton>
+									)}
+								</>
+							)}
+						</CardActions>
 						{/* IMAGE */}
 						<CardMedia className={classes.media} image={item.picture} />
 						<CardContent>
