@@ -106,13 +106,13 @@ const UserProfile = () => {
 							</Typography>
 							<div className={classes.userStats}>
 								<Typography variant='h5' align='center' className={classes.usersInfoText}>
-									{userProfile.posts.length} posts
+									posts: {userProfile.posts.length}
 								</Typography>
 								<Typography variant='h5' align='center' className={classes.usersInfoText}>
-									{userProfile.user.followers.length} followers
+									followers: {userProfile.user.followers.length}
 								</Typography>
 								<Typography variant='h5' align='center' className={classes.usersInfoText}>
-									{userProfile.user.following.length} following
+									following: {userProfile.user.following.length}
 								</Typography>
 								{isFollowing ? (
 									<IconButton className={classes.unfollowButton} onClick={() => unfollowUser()}>

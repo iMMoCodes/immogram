@@ -18,7 +18,6 @@ import useStyles from './styles'
 const PostCard = () => {
 	const [data, setData] = useState([])
 	const [loading, setLoading] = useState(true)
-	const [expanded, setExpanded] = useState(false)
 	const classes = useStyles()
 	const userState = useSelector((state) => state.user)
 
@@ -112,23 +111,6 @@ const PostCard = () => {
 			})
 	}
 
-	// Delete post
-	const deletePost = (postId) => {
-		fetch(`${SERVER_URL}/post/delete/${postId}`, {
-			method: 'DELETE',
-			headers: {
-				Authorization: 'Bearer ' + localStorage.getItem('jwt'),
-			},
-		})
-			.then((res) => res.json())
-			.then((result) => {
-				const newData = data.filter((item) => {
-					return item._id !== result._id
-				})
-				setData(newData)
-			})
-	}
-
 	// Delete comment
 	const deleteComment = (text, postId) => {
 		fetch(`${SERVER_URL}/post/delete/comment`, {
@@ -194,53 +176,11 @@ const PostCard = () => {
 									{item?.createdBy?.name?.charAt(0).toUpperCase()}
 								</Avatar>
 							}
-							action={
-								item.createdBy._id === userState._id && (
-									<IconButton
-										className={clsx(classes.expand, {
-											[classes.expandOpen]: expanded,
-										})}
-										onClick={() => setExpanded(!expanded)}
-										aria-expanded={expanded}
-										aria-label='show more'
-									>
-										<MoreVertIcon />
-									</IconButton>
-								)
-							}
 							title={item.title}
 							subheader={moment(item.createdAt).fromNow()}
 						/>
-						<Collapse in={expanded} timeout='auto' unmountOnExit>
-							<CardActions className={classes.collapseButtons}>
-								<Button className={classes.editButton}>
-									<EditIcon />
-									Edit post
-								</Button>
-								<Button className={classes.deleteButton} onClick={() => deletePost(item._id)}>
-									<DeleteForeverIcon />
-									Delete post
-								</Button>
-							</CardActions>
-						</Collapse>
-						{/* IMAGE */}
-						<CardMedia className={classes.media} image={item.picture} />
-						<CardContent>
-							{/* DESCRIPTION */}
-							<Typography variant='body2' color='textSecondary' component='p'>
-								{item.body}
-							</Typography>
-						</CardContent>
-						{/* CARD BUTTONS */}
+						{/* LIKE */}
 						<CardActions className={classes.actionButtons}>
-							{/* FAVORITE */}
-							<IconButton>
-								<FavoriteIcon className={classes.favoriteIcon} />
-								<Typography variant='h6' className={classes.iconTexts}>
-									&nbsp;Favorite
-								</Typography>
-							</IconButton>
-							{/* LIKE */}
 							{item.likes.includes(userState._id) ? (
 								<IconButton onClick={() => dislikePost(item._id)}>
 									<ThumbDownIcon className={classes.unlikeIcon} />
@@ -259,6 +199,14 @@ const PostCard = () => {
 								</IconButton>
 							)}
 						</CardActions>
+						{/* IMAGE */}
+						<CardMedia className={classes.media} image={item.picture} />
+						<CardContent>
+							{/* DESCRIPTION */}
+							<Typography variant='body2' color='textSecondary' component='p'>
+								{item.body}
+							</Typography>
+						</CardContent>
 						{/* COMMENTS */}
 						{item.comments.map((comment) => {
 							return (

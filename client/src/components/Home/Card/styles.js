@@ -30,6 +30,7 @@ export default makeStyles((theme) => ({
 	},
 	iconTexts: {
 		color: '#444444',
+		marginLeft: '20px',
 	},
 	commentField: {
 		display: 'flex',

@@ -85,8 +85,7 @@ const CreatePost = () => {
 					{/* ALERT FOR ERROR */}
 					{showAlert === 'error' && (
 						<Alert variant='outlined' severity='error'>
-							There was an error. Please fill all the fields and try
-							again.
+							There was an error. Please fill all the fields and try again.
 						</Alert>
 					)}
 					{/* SUCCESS MESSAGE*/}
@@ -99,27 +98,9 @@ const CreatePost = () => {
 					)}
 				</div>
 				{/* TITLE */}
-				<TextField
-					name='title'
-					type='text'
-					variant='outlined'
-					label='Title'
-					fullWidth
-					className={classes.textFields}
-					value={title}
-					onChange={(e) => setTitle(e.target.value)}
-				/>
+				<TextField name='title' type='text' variant='outlined' label='Title' fullWidth className={classes.textFields} value={title} onChange={(e) => setTitle(e.target.value)} />
 				{/* MESSAGE */}
-				<TextField
-					name='message'
-					type='text'
-					variant='outlined'
-					label='Message'
-					fullWidth
-					className={classes.textFields}
-					value={message}
-					onChange={(e) => setMessage(e.target.value)}
-				/>
+				<TextField name='message' type='text' variant='outlined' label='Message' fullWidth className={classes.textFields} value={message} onChange={(e) => setMessage(e.target.value)} />
 				{/* IMAGE FILE */}
 				<div className={classes.fileInput}>
 					<FileBase type='file' multiple={false} onDone={({ base64 }) => setImage(base64)} />
@@ -127,13 +108,7 @@ const CreatePost = () => {
 				{/* ACTION BUTTONS */}
 				<div className={classes.actionButtons}>
 					{/* SUBMIT */}
-					<Button
-						className={classes.buttonSubmit}
-						variant='contained'
-						color='primary'
-						size='large'
-						onClick={submitDetails}
-					>
+					<Button className={classes.buttonSubmit} variant='contained' color='primary' size='large' onClick={submitDetails}>
 						Submit
 					</Button>
 				</div>

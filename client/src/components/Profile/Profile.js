@@ -102,13 +102,13 @@ const Profile = () => {
 					</Typography>
 					<div className={classes.userStats}>
 						<Typography variant='h5' align='center' className={classes.usersInfoText}>
-							{ownPosts.length} posts
+							posts: {ownPosts.length}
 						</Typography>
 						<Typography variant='h5' align='center' className={classes.usersInfoText}>
-							{userState?.followers?.length} followers
+							followers: {userState?.followers?.length}
 						</Typography>
 						<Typography variant='h5' align='center' className={classes.usersInfoText}>
-							{userState?.following?.length} following
+							following: {userState?.following?.length}
 						</Typography>
 					</div>
 					<Button component={Link} to='/followedPosts' variant='contained' className={classes.followedPostsButton}>

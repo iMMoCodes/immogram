@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 import { Avatar, Button, Card, CardActions, CardContent, CardHeader, CardMedia, IconButton, TextField, Typography } from '@material-ui/core'
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt'
 import ThumbDownIcon from '@material-ui/icons/ThumbDown'
-import EditIcon from '@material-ui/icons/Edit'
+// import EditIcon from '@material-ui/icons/Edit'
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
 
 import { SERVER_URL } from '../../../constants/fetchURL'
@@ -196,10 +196,10 @@ const HomeCard = () => {
 						<CardActions className={classes.collapseButtons}>
 							{item.createdBy._id === userState._id ? (
 								<>
-									<Button className={classes.editButton}>
+									{/* <Button className={classes.editButton}>
 										<EditIcon />
 										Edit post
-									</Button>
+									</Button> */}
 									<Button className={classes.deleteButton} onClick={() => deletePost(item._id)}>
 										<DeleteForeverIcon />
 										Delete post
@@ -209,6 +209,7 @@ const HomeCard = () => {
 								<>
 									{item.likes.includes(userState._id) ? (
 										<IconButton onClick={() => dislikePost(item._id)}>
+											Dislike &nbsp;
 											<ThumbDownIcon className={classes.unlikeIcon} />
 											<Typography variant='h6' className={classes.iconTexts}>
 												&nbsp;
@@ -217,9 +218,9 @@ const HomeCard = () => {
 										</IconButton>
 									) : (
 										<IconButton onClick={() => likePost(item._id)}>
+											Like &nbsp;
 											<ThumbUpAltIcon className={classes.likeIcon} />
 											<Typography variant='h6' className={classes.iconTexts}>
-												&nbsp;
 												{item.likes.length}
 											</Typography>
 										</IconButton>
