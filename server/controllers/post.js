@@ -21,6 +21,7 @@ export const getFollowedPosts = (req, res) => {
 	Post.find({ createdBy: { $in: req.user.following } })
 		// Turn ObjectId to actual fields
 		.populate('createdBy', '_id name')
+		.populate('comments.createdBy', '_id name')
 		// Return posts
 		.then((posts) => {
 			res.json({ posts })
