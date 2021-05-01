@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { Container, Paper, Avatar, Grid, Typography, Card, IconButton } from '@material-ui/core'
+import { Container, Paper, Avatar, Grid, Typography, Card, IconButton, CircularProgress } from '@material-ui/core'
 import StarsIcon from '@material-ui/icons/Stars'
 import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline'
 
@@ -9,7 +9,6 @@ import { updateUser } from '../../actions/user'
 
 import useStyles from './styles'
 import { SERVER_URL } from '../../constants/fetchURL'
-import Loader from '../../helpers/Loader/Loader'
 
 const UserProfile = () => {
 	const classes = useStyles()
@@ -114,21 +113,25 @@ const UserProfile = () => {
 								<Typography variant='h5' align='center' className={classes.usersInfoText}>
 									following: {userProfile.user.following.length}
 								</Typography>
-								{isFollowing ? (
-									<IconButton className={classes.unfollowButton} onClick={() => unfollowUser()}>
-										<RemoveCircleOutlineIcon className={classes.unfollowIcon} />
-										<Typography variant='h6' className={classes.unfollowText}>
-											&nbsp;Unfollow
-										</Typography>
-									</IconButton>
-								) : (
-									<IconButton className={classes.followButton} onClick={() => followUser()}>
-										<StarsIcon className={classes.followIcon} />
-										<Typography variant='h6' className={classes.followText}>
-											&nbsp;Follow
-										</Typography>
-									</IconButton>
-								)}
+								{userId !== userState._id ? (
+									<div>
+										{isFollowing ? (
+											<IconButton className={classes.unfollowButton} onClick={() => unfollowUser()}>
+												<RemoveCircleOutlineIcon className={classes.unfollowIcon} />
+												<Typography variant='h6' className={classes.unfollowText}>
+													&nbsp;Unfollow
+												</Typography>
+											</IconButton>
+										) : (
+											<IconButton className={classes.followButton} onClick={() => followUser()}>
+												<StarsIcon className={classes.followIcon} />
+												<Typography variant='h6' className={classes.followText}>
+													&nbsp;Follow
+												</Typography>
+											</IconButton>
+										)}
+									</div>
+								) : null}
 							</div>
 						</Grid>
 					</Paper>
@@ -142,7 +145,7 @@ const UserProfile = () => {
 					</Card>
 				</>
 			) : (
-				<Loader />
+				<CircularProgress size='200px' />
 			)}
 		</Container>
 	)

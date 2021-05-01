@@ -209,16 +209,13 @@ const HomeCard = () => {
 								<>
 									{item.likes.includes(userState._id) ? (
 										<IconButton onClick={() => dislikePost(item._id)}>
-											Dislike &nbsp;
 											<ThumbDownIcon className={classes.unlikeIcon} />
 											<Typography variant='h6' className={classes.iconTexts}>
-												&nbsp;
 												{item.likes.length}
 											</Typography>
 										</IconButton>
 									) : (
 										<IconButton onClick={() => likePost(item._id)}>
-											Like &nbsp;
 											<ThumbUpAltIcon className={classes.likeIcon} />
 											<Typography variant='h6' className={classes.iconTexts}>
 												{item.likes.length}
