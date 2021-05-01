@@ -218,7 +218,7 @@ const PostCard = () => {
 									<Typography className={classes.commentSendText} variant='body2'>
 										{comment.text}
 									</Typography>
-									{comment.createdBy._id === userState.id && (
+									{comment.createdBy._id === userState._id && (
 										<Button
 											className={classes.deleteCommentButton}
 											onClick={() => {
