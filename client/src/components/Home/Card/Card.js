@@ -264,6 +264,7 @@ const HomeCard = () => {
 							onSubmit={(e) => {
 								e.preventDefault()
 								makeComment(e.target[0].value, item._id)
+								e.target[0].value = ''
 							}}
 							className={classes.commentField}
 							noValidate

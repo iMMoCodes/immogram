@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import moment from 'moment'
-import clsx from 'clsx'
 import { useSelector } from 'react-redux'
-import { Avatar, Button, Card, Collapse, CardActions, CardContent, CardHeader, CardMedia, IconButton, TextField, Typography } from '@material-ui/core'
-import MoreVertIcon from '@material-ui/icons/MoreVert'
-import FavoriteIcon from '@material-ui/icons/Favorite'
+import { Avatar, Button, Card, CardActions, CardContent, CardHeader, CardMedia, IconButton, TextField, Typography } from '@material-ui/core'
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt'
 import ThumbDownIcon from '@material-ui/icons/ThumbDown'
-import EditIcon from '@material-ui/icons/Edit'
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
 
 import { SERVER_URL } from '../../../constants/fetchURL'
@@ -235,6 +231,7 @@ const PostCard = () => {
 							onSubmit={(e) => {
 								e.preventDefault()
 								makeComment(e.target[0].value, item._id)
+								e.target[0].value = ''
 							}}
 							className={classes.commentField}
 							noValidate

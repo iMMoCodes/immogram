@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { Avatar, Button, Paper, Grid, Typography, Container, TextField } from '@material-ui/core'
 import Alert from '@material-ui/lab/Alert'
@@ -41,7 +41,7 @@ const Signup = () => {
 			})
 	}
 
-	const uploadProfileInfo = () => {
+	const uploadProfileInfo = useCallback(() => {
 		fetch(`${SERVER_URL}/user/signup`, {
 			method: 'POST',
 			headers: {
@@ -71,7 +71,7 @@ const Signup = () => {
 			.catch((err) => {
 				console.log(err)
 			})
-	}
+	}, [email, history, name, password, url])
 
 	// Submit data
 	const submitData = () => {
@@ -86,7 +86,7 @@ const Signup = () => {
 		if (url) {
 			uploadProfileInfo()
 		}
-	}, [url])
+	}, [url, uploadProfileInfo])
 
 	return (
 		<Container>

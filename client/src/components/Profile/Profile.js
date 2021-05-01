@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Container, Paper, Avatar, Grid, Typography, Card, Button } from '@material-ui/core'
@@ -18,24 +18,27 @@ const Profile = () => {
 	const userState = useSelector((state) => state.user)
 	const dispatch = useDispatch()
 
-	const sendPicToBackEnd = (pictureUrl) => {
-		fetch(`${SERVER_URL}/profile/updatepic`, {
-			method: 'PATCH',
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: 'Bearer ' + localStorage.getItem('jwt'),
-			},
-			body: JSON.stringify({
-				picture: pictureUrl,
-			}),
-		})
-			.then((res) => res.json())
-			.then((result) => {
-				// Save to front end
-				localStorage.setItem('user', JSON.stringify({ ...userState, picture: result.picture }))
-				dispatch(updateUserPic(result.picture))
+	const sendPicToBackEnd = useCallback(
+		(pictureUrl) => {
+			fetch(`${SERVER_URL}/profile/updatepic`, {
+				method: 'PATCH',
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: 'Bearer ' + localStorage.getItem('jwt'),
+				},
+				body: JSON.stringify({
+					picture: pictureUrl,
+				}),
 			})
-	}
+				.then((res) => res.json())
+				.then((result) => {
+					// Save to front end
+					localStorage.setItem('user', JSON.stringify({ ...userState, picture: result.picture }))
+					dispatch(updateUserPic(result.picture))
+				})
+		},
+		[dispatch, userState]
+	)
 
 	useEffect(() => {
 		if (image) {
@@ -59,7 +62,8 @@ const Profile = () => {
 					console.log(err)
 				})
 		}
-	}, [image])
+	}, [image, sendPicToBackEnd])
+
 	// Update profile picture
 	const updateProfilePic = (file) => {
 		setImage(file)
