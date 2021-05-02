@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { Container, Paper, Avatar, Grid, Typography, Card, Button } from '@material-ui/core'
+import { Container, Paper, Avatar, Grid, Typography, Card, Button, CircularProgress } from '@material-ui/core'
 import StarIcon from '@material-ui/icons/Star'
 import FileBase from 'react-file-base64'
 
@@ -87,7 +87,7 @@ const Profile = () => {
 			<Paper className={classes.paper} elevation={3}>
 				<Grid className={classes.pictureContainer}>
 					{/* USER IMAGE */}
-					<Avatar className={classes.avatar} src={userState ? userState.picture : 'Loading'} />
+					<Avatar className={classes.avatar} src={userState ? userState.picture : <CircularProgress />} />
 					<div className={classes.relativeContainer}>
 						<div className={classes.updateButtonContainer}>
 							<Button className={classes.updatePictureButton} variant='contained'>

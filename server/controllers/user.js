@@ -1,7 +1,19 @@
-import mongoose from 'mongoose'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import User from '../models/user.js'
+import nodemailer from 'nodemailer'
+import sendgridTransport from 'nodemailer-sendgrid-transport'
+import dotenv from 'dotenv'
+dotenv.config()
+
+// Email setup
+const transporter = nodemailer.createTransport(
+	sendgridTransport({
+		auth: {
+			api_key: process.env.SENDGRID_KEY,
+		},
+	})
+)
 
 // Sign Up
 export const signup = (req, res) => {
@@ -30,6 +42,17 @@ export const signup = (req, res) => {
 				user
 					.save()
 					.then((user) => {
+						// Send email to user
+						transporter
+							.sendMail({
+								to: user.email,
+								from: 'immocodesit@gmail.com',
+								subject: 'Succesfully signed up',
+								html: '<h1>Welcome to Immogram</h1>',
+							})
+							.catch((err) => {
+								console.log(err)
+							})
 						res.status(201).json({ message: 'User succesfully saved.' })
 					})
 					.catch((err) => {

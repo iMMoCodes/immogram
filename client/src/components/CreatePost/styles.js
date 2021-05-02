@@ -24,6 +24,7 @@ export default makeStyles((theme) => ({
 		display: 'flex',
 		justifyContent: 'space-around',
 		width: '500px',
+		marginTop: '50px',
 	},
 	headingWarning: {
 		display: 'flex',
