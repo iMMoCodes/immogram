@@ -55,7 +55,7 @@ const Signin = () => {
 				</Typography>
 				{/* FORM */}
 				<form className={classes.form}>
-					{/* ALERT FOR WRONG CREDENTIALS */}
+					{/* ALERT FOR ERROR */}
 					{showAlert === 'error' && (
 						<Alert variant='outlined' severity='error'>
 							Something went wrong. Please try again.

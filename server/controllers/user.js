@@ -129,7 +129,7 @@ export const resetPassword = (req,res) => {
 					subject: "Password reset request",
 					html: `
 					<p>You have requested for a password reset.</p>
-					<h5>Click this <a href="http://localhost:3000/reset-password/${token}">link </a> to reset password.</h5>
+					<h5>Click this <a href="${process.env.EMAIL}/reset-password/${token}">link </a> to reset password.</h5>
 					`
 				})
 				res.json({message: "Check your email."})
