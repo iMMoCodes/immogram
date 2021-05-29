@@ -1,33 +1,28 @@
 import React, { useState } from 'react'
-import { Link, useHistory } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 import { Avatar, Button, Paper, Grid, Typography, Container, TextField } from '@material-ui/core'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Alert from '@material-ui/lab/Alert'
 
 import useStyles from './styles'
 
-import { setUser } from '../../actions/user'
 import { SERVER_URL } from '../../constants/fetchURL'
 
-const Signin = () => {
+const ResetPassword = () => {
 	const classes = useStyles()
 	const [email, setEmail] = useState('')
-	const [password, setPassword] = useState('')
 	const [showAlert, setShowAlert] = useState('')
 	const history = useHistory()
-	const dispatch = useDispatch()
 
 	// Submit data
 	const submitData = () => {
-		fetch(`${SERVER_URL}/user/signin`, {
+		fetch(`${SERVER_URL}/user/reset-password`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify({
-				email,
-				password,
+				email
 			}),
 		})
 			// Convert response
@@ -37,14 +32,8 @@ const Signin = () => {
 				if (data.error) {
 					return setShowAlert('error')
 				}
-				// Save token to local storage
-				localStorage.setItem('jwt', data.token)
-				// Save user details to local storage
-				localStorage.setItem('user', JSON.stringify(data.user))
-				// Dispatch user info
-				dispatch(setUser(data.user))
 				// Redirect
-				history.push('/')
+				history.push('/signin')
 			})
 			.catch((err) => {
 				console.log(err)
@@ -58,9 +47,9 @@ const Signin = () => {
 				<Avatar className={classes.avatar}>
 					<LockOutlinedIcon />
 				</Avatar>
-				{/* SIGN IN TEXT */}
+				{/* PASSWORD RESET TEXT */}
 				<Typography variant='h5' gutterBottom>
-					Sign In
+					Enter your email
 				</Typography>
 				{/* FORM */}
 				<form className={classes.form}>
@@ -82,35 +71,16 @@ const Signin = () => {
 							onChange={(e) => setEmail(e.target.value)}
 						/>
 					</Grid>
-					{/* PASSWORD */}
-					<Grid className={classes.textField} item xs={12}>
-						<TextField
-							type='password'
-							label='password'
-							variant='outlined'
-							required
-							fullWidth
-							value={password}
-							onChange={(e) => setPassword(e.target.value)}
-						/>
-					</Grid>
-					{/* LOGIN BUTTON */}
+					{/* RESET BUTTON */}
 					<Grid item xs={12}>
 						<Button className={classes.button} variant='contained' onClick={submitData}>
-							Login
+							Send password reset link
 						</Button>
 					</Grid>
 				</form>
-				{/* USER NEEDS AN ACCOUNT */}
-				<Typography className={classes.signLink} component={Link} to='/signup' variant='body1'>
-					Don't have an account? Click here to Sign Up.
-				</Typography>
-				<Typography className={classes.signLink} component={Link} to='/reset-password' variant='body2'>
-					Forgot password? Click here.
-				</Typography>
 			</Paper>
 		</Container>
 	)
 }
 
-export default Signin
+export default ResetPassword

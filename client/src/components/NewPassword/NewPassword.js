@@ -1,33 +1,30 @@
 import React, { useState } from 'react'
-import { Link, useHistory } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useHistory, useParams } from 'react-router-dom'
 import { Avatar, Button, Paper, Grid, Typography, Container, TextField } from '@material-ui/core'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Alert from '@material-ui/lab/Alert'
 
 import useStyles from './styles'
 
-import { setUser } from '../../actions/user'
 import { SERVER_URL } from '../../constants/fetchURL'
 
 const Signin = () => {
 	const classes = useStyles()
-	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 	const [showAlert, setShowAlert] = useState('')
 	const history = useHistory()
-	const dispatch = useDispatch()
+    const {token} = useParams()
 
 	// Submit data
 	const submitData = () => {
-		fetch(`${SERVER_URL}/user/signin`, {
+		fetch(`${SERVER_URL}/user/new-password`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify({
-				email,
 				password,
+                token
 			}),
 		})
 			// Convert response
@@ -37,14 +34,8 @@ const Signin = () => {
 				if (data.error) {
 					return setShowAlert('error')
 				}
-				// Save token to local storage
-				localStorage.setItem('jwt', data.token)
-				// Save user details to local storage
-				localStorage.setItem('user', JSON.stringify(data.user))
-				// Dispatch user info
-				dispatch(setUser(data.user))
 				// Redirect
-				history.push('/')
+				history.push('/signin')
 			})
 			.catch((err) => {
 				console.log(err)
@@ -58,35 +49,23 @@ const Signin = () => {
 				<Avatar className={classes.avatar}>
 					<LockOutlinedIcon />
 				</Avatar>
-				{/* SIGN IN TEXT */}
+				{/* SET NEW PASSWORD TEXT */}
 				<Typography variant='h5' gutterBottom>
-					Sign In
+					Set new password
 				</Typography>
 				{/* FORM */}
 				<form className={classes.form}>
 					{/* ALERT FOR WRONG CREDENTIALS */}
 					{showAlert === 'error' && (
 						<Alert variant='outlined' severity='error'>
-							Invalid credentials. Please try again.
+							Something went wrong. Please try again.
 						</Alert>
 					)}
-					{/* EMAIL */}
-					<Grid className={classes.textField} item xs={12}>
-						<TextField
-							type='text'
-							label='email'
-							variant='outlined'
-							required
-							fullWidth
-							value={email}
-							onChange={(e) => setEmail(e.target.value)}
-						/>
-					</Grid>
 					{/* PASSWORD */}
 					<Grid className={classes.textField} item xs={12}>
 						<TextField
 							type='password'
-							label='password'
+							label='Enter new password'
 							variant='outlined'
 							required
 							fullWidth
@@ -94,20 +73,13 @@ const Signin = () => {
 							onChange={(e) => setPassword(e.target.value)}
 						/>
 					</Grid>
-					{/* LOGIN BUTTON */}
+					{/* CHANGE PASSWORD BUTTON */}
 					<Grid item xs={12}>
 						<Button className={classes.button} variant='contained' onClick={submitData}>
-							Login
+							Change password
 						</Button>
 					</Grid>
 				</form>
-				{/* USER NEEDS AN ACCOUNT */}
-				<Typography className={classes.signLink} component={Link} to='/signup' variant='body1'>
-					Don't have an account? Click here to Sign Up.
-				</Typography>
-				<Typography className={classes.signLink} component={Link} to='/reset-password' variant='body2'>
-					Forgot password? Click here.
-				</Typography>
 			</Paper>
 		</Container>
 	)

@@ -12,6 +12,8 @@ import Signup from '../Signup/Signup'
 import CreatePost from '../CreatePost/CreatePost'
 import UserProfile from '../UserProfile/UserProfile'
 import FollowedPosts from '../FollowedPosts/FollowedPosts'
+import ResetPassword from '../ResetPassword/ResetPassword'
+import NewPassword from '../NewPassword/NewPassword'
 
 const Routing = () => {
 	const history = useHistory()
@@ -26,6 +28,8 @@ const Routing = () => {
 			// Dispatch userInfo
 			dispatch(setUser(user))
 		} else {
+			// Make exception for the reset page
+			if(!history.location.pathname.startsWith('/reset'))
 			// If there's no user -> Redirect to signin page
 			history.push('/signin')
 		}
@@ -40,6 +44,8 @@ const Routing = () => {
 			<Route path='/createpost' exact component={CreatePost} />
 			<Route path='/profile/:userId' exact component={UserProfile} />
 			<Route path='/followedPosts' exact component={FollowedPosts} />
+			<Route path='/reset-password' exact component={ResetPassword} />
+			<Route path='/reset-password/:token' exact component={NewPassword} />
 		</Switch>
 	)
 }

@@ -1,5 +1,6 @@
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
+import crypto from 'crypto'
 import User from '../models/user.js'
 import nodemailer from 'nodemailer'
 import sendgridTransport from 'nodemailer-sendgrid-transport'
@@ -98,5 +99,62 @@ export const signin = (req, res) => {
 			.catch((err) => {
 				console.log(err)
 			})
+	})
+}
+
+export const resetPassword = (req,res) => {
+	// Create token
+	crypto.randomBytes(32,(err,buffer) => {
+		if(err) {
+			console.log(err)
+		}
+		const token = buffer.toString("hex")
+		// Find user by email
+		User.findOne({email:req.body.email})
+		.then(user => {
+			// Check that user exists
+			if(!user) {
+				return res.status(422).json({error: "User doesn't exists with that email."})
+			}
+			// Apply token to user
+			user.resetToken = token
+			// Token lasts for 30min
+			user.expireToken = Date.now() + 1800000
+			// Save user and send email
+			// !! CHANGE LINK !!
+			user.save().then((result) => {
+				transporter.sendMail({
+					to: user.email,
+					from: 'immocodesit@gmail.com',
+					subject: "Password reset request",
+					html: `
+					<p>You have requested for a password reset.</p>
+					<h5>Click this <a href="http://localhost:3000/reset-password/${token}">link </a> to reset password.</h5>
+					`
+				})
+				res.json({message: "Check your email."})
+			})
+		})
+	}) 
+}
+
+export const newPassword = (req,res) => {
+	const newPassword = req.body.password
+	const userToken = req.body.token
+	User.findOne({resetToken: userToken, expireToken:{$gt: Date.now()}})
+	.then(user => {
+		if(!user) {
+			return res.status(422).json({error: "Try again, session expired."})
+		}
+		bcrypt.hash(newPassword,12).then(newHashedPassword => {
+			user.password = newHashedPassword
+			user.resetToken = undefined
+			user.expireToken = undefined
+			user.save().then((savedUser) => {
+				res.json({message: "Password updated succesfully."})
+			})
+		})
+	}).catch(err => {
+		console.log(err)
 	})
 }
