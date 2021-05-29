@@ -7,6 +7,8 @@ export const getPosts = (req, res) => {
 		// Turn ObjectId to actual fields
 		.populate('createdBy', '_id name')
 		.populate('comments.createdBy', '_id name')
+		// Sort posts by post time
+		.sort('-createdAt')
 		// Return posts
 		.then((posts) => {
 			res.json({ posts })
@@ -22,6 +24,8 @@ export const getFollowedPosts = (req, res) => {
 		// Turn ObjectId to actual fields
 		.populate('createdBy', '_id name')
 		.populate('comments.createdBy', '_id name')
+		// Sort posts by post time
+		.sort('-createdAt')
 		// Return posts
 		.then((posts) => {
 			res.json({ posts })
@@ -66,6 +70,8 @@ export const getOwnPosts = (req, res) => {
 	Post.find({ createdBy: req.user._id })
 		// Turn ObjectId to actual fields
 		.populate('createdBy', '_id name')
+		// Sort posts by post time
+		.sort('-createdAt')
 		.then((myPosts) => {
 			res.json({ myPosts })
 		})
