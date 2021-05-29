@@ -93,6 +93,7 @@ export const unfollowUser = (req, res) => {
 	)
 }
 
+// Update Pic
 export const updatePic = (req, res) => {
 	// Find currently logged in user
 	User.findByIdAndUpdate(
@@ -110,4 +111,20 @@ export const updatePic = (req, res) => {
 		.catch((err) => {
 			return res.status(422).json({ error: err })
 		})
+}
+
+// Search users
+export const searchUser = (req,res) => {
+	// Pattern that user writes
+	let userPattern = new RegExp('^'+req.body.query)
+	// Find user by name & pattern
+	User.find({name:{$regex:userPattern}})
+	// Get id,pic and name
+	.select('_id name picture')
+	.then(user => {
+		res.json({user})
+	})
+	.catch(err => {
+		console.log(err)
+	})
 }
