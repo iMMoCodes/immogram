@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { Button, Typography } from '@material-ui/core'
 
 import { logOut } from '../../actions/user'
+import SimpleModal from '../SearchModal/SearchModal'
 
 import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined'
 import AddBoxOutlinedIcon from '@material-ui/icons/AddBoxOutlined'
@@ -29,6 +30,8 @@ export const GetUserButtons = () => {
 	// User is logged
 	if (userState) {
 		return [
+			// SEARCH BUTTON
+			<SimpleModal key={6}/>,
 			// PROFILE BUTTON
 			<Button key={0} component={Link} to='/profile' variant='contained' className={`${classes.profileButton} ${classes.buttons}`}>
 				<AccountCircleIcon />
@@ -37,7 +40,7 @@ export const GetUserButtons = () => {
 			// CREATE POST BUTTON
 			<Button key={1} component={Link} to='/createpost' variant='contained' className={`${classes.createPostButton} ${classes.buttons}`}>
 				<PostAddIcon />
-				<Typography variant='body2'>&nbsp;Create post</Typography>
+				<Typography variant='body2'>&nbsp;New post</Typography>
 			</Button>,
 			// LOGOUT BUTTON
 			<Button
